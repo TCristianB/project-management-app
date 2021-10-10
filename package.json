@@ -1,0 +1,30 @@
+{
+  "name": "project-management-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "env-cmd -f ./dev.env nodemon index.js",
+    "eslint": "eslint ."
+  },
+  "keywords": [
+    "NodeJS",
+    "ExpressJS",
+    "ReactJS",
+    "MongoDB",
+    "JWT"
+  ],
+  "author": "TCristianB",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.10"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "eslint": "^7.11.0",
+    "nodemon": "^2.0.13"
+  }
+}
