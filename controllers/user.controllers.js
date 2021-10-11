@@ -26,7 +26,7 @@ exports.logInUser = async (req, res) => {
 	try {
 		const user = await User.findByCredentials(req.body.email, req.body.password)
 		const token = await user.generateAuthToken()
-		res.send({ user, token })
+		res.status(200).send({ user, token })
 	} catch (e) {
 		res.status(500).send()
 	}
@@ -35,11 +35,10 @@ exports.logInUser = async (req, res) => {
 exports.logOutUser = async (req, res) => {
 	try {
 		req.user.tokens = req.user.tokens.filter((token) => {
-			console.log(token.token)
 			return token.token !== req.token
 		})
 		await req.user.save()
-		res.send(req.user)
+		res.status(200).send(req.user)
 	} catch (e) {
 		res.status(500).send()
 	}

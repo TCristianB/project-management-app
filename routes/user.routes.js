@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const { getUsers, createUser, logInUser, logOutUser,getUserById, updateUser, deleteUser } = require('../controllers/user.controllers.js')
-
+const auth = require('../middleware/auth')
 // GET all users
 router.get('/', getUsers)
 
@@ -13,7 +13,7 @@ router.post('/signUp', createUser)
 router.post('/signIn', logInUser)
 
 // Log out a user
-router.post('/signOut', logOutUser)
+router.post('/signOut', auth, logOutUser)
 
 // Get a user by his id
 router.get('/:id', getUserById)

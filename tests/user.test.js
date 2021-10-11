@@ -2,59 +2,86 @@ const { server } = require('../index')
 const mongoose = require('mongoose')
 
 const User = require('../models/User')
-const { api, initialUsers } = require('./helpers')
+const { api } = require('./helpers')
 
 
 
-beforeEach(async () => {
-	await User.deleteMany({})
-
-	for (const user of initialUsers) {
-		const userObject = new User(user)
-		await userObject.save()
-	}
-})
 
 
+describe('Testing the users route', () => {
+	beforeEach(async () => {
+		await User.deleteMany({})
 
-test('Get all users', async () => {
-	await api.get('/api/users').expect(200).expect('Content-Type', /application\/json/)
-})
+		const user = new User({ name: 'jose', lastName: 'jose', email: 'jose@example.com', password: 'test' })
 
-test('Create a user without email', async () => {
-	const newUser = {
-		name: 'Cristian',
-		lastName: 'Barreto',
-		password: 'test'
-	}
-	await api
-		.post('/api/users/signUp')
-		.send(newUser)
-		.expect(400)
+		await user.save()
+	})
 
-	const response = await api.get('/api/users')
+	test('Get all users', async () => {
+		await api
+			.get('/api/users')
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+	})
 
-	expect(response.body).toHaveLength(initialUsers.length)
-})
+	test('Create a user without email', async () => {
+		const usersDB = await User.find({})
+		const usersAtStart = usersDB.map(user => user.toJSON())
+		const newUser = {
+			name: 'Cristian',
+			lastName: 'Barreto',
+			password: 'test'
+		}
+		await api
+			.post('/api/users/signUp')
+			.send(newUser)
+			.expect(400)
 
-test('Create a user', async () => {
-	const newUser = {
-		name: 'Cristian',
-		lastName: 'Barreto',
-		email: 'ariwachi@gmail.com',
-		password: 'test'
-	}
-	await api
-		.post('/api/users/signUp')
-		.send(newUser)
-		.expect(201)
-		.expect('Content-Type', /application\/json/)
+		const usersDBAfter = await User.find({})
+		const usersAtEnd = usersDBAfter.map(user => user.toJSON())
 
-	const response = await api.get('/api/users')
-	const emails = response.body.map(user => user.email)
+		expect(usersAtEnd).toHaveLength(usersAtStart.length)
+	})
 
-	expect(response.body).toHaveLength(initialUsers.length + 1)
-	expect(emails).toContain(newUser.email)
+	test('Create a new user', async () => {
+		const usersDB = await User.find({})
+		const usersAtStart = usersDB.map(user => user.toJSON())
+
+		const newUser = {
+			name: 'Cristian',
+			lastName: 'Barreto',
+			email: 'ariwachi@gmail.com',
+			password: 'test'
+		}
+		await api
+			.post('/api/users/signUp')
+			.send(newUser)
+			.expect(201)
+			.expect('Content-Type', /application\/json/)
+
+
+		const usersDBAfter = await User.find({})
+		const usersAtEnd = usersDBAfter.map(user => user.toJSON())
+
+		expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+	})
+
+	test('Log in a user and log out', async () => {
+		const user = {
+			email: 'jose@example.com',
+			password: 'test'
+		}
+
+		await api
+			.post('/api/users/signIn')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const findUser = await User.findOne({ email: 'jose@example.com' })
+		await api.post('/api/users/signOut').set('Authorization', `Bearer ${findUser.tokens[0].token}`).expect(200)
+	})
+
 })
 
 afterAll(() => {
