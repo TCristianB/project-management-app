@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "env-cmd -f ./dev.env nodemon index.js",
-    "eslint": "eslint ."
+    "dev": "NODE_ENV=development nodemon index.js",
+    "eslint": "eslint .",
+    "start": "NODE_ENV=production jest node index.js",
+    "test": "NODE_ENV=test PORT=8001 jest --silent --detectOpenHandles",
+	"test:watch": "npm run test -- --watch"
   },
   "keywords": [
     "NodeJS",
@@ -23,8 +26,13 @@
     "mongoose": "^6.0.10"
   },
   "devDependencies": {
-    "env-cmd": "^10.1.0",
+    "dotenv": "^10.0.0",
     "eslint": "^7.11.0",
-    "nodemon": "^2.0.13"
+    "jest": "^27.2.5",
+    "nodemon": "^2.0.13",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }

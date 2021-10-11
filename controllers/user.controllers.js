@@ -3,7 +3,7 @@ const User = require('../models/User')
 exports.getUsers = async (req, res) => {
 	try {
 		const users = await User.find({})
-		res.send(users)
+		res.status(200).send(users)
 	} catch (e) {
 		console.log(e)
 	}
@@ -15,9 +15,9 @@ exports.createUser = async (req, res) => {
 	try {
 		const token = await user.generateAuthToken()
 		await user.save()
-		res.send({ user, token })
+		res.status(201).send({ user, token })
 	} catch (e) {
-		console.log(e)
+		res.status(400).send()
 	}
 
 }
