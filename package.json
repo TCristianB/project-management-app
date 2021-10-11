@@ -8,7 +8,7 @@
     "eslint": "eslint .",
     "start": "NODE_ENV=production jest node index.js",
     "test": "NODE_ENV=test PORT=8001 jest --silent --detectOpenHandles",
-	"test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch"
   },
   "keywords": [
     "NodeJS",
@@ -20,17 +20,18 @@
   "author": "TCristianB",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.10"
+    "babel-jest": "26.6.0",
+    "bcryptjs": "2.4.3",
+    "express": "4.17.1",
+    "jsonwebtoken": "8.5.1",
+    "mongoose": "6.0.10"
   },
   "devDependencies": {
-    "dotenv": "^10.0.0",
-    "eslint": "^7.11.0",
-    "jest": "^27.2.5",
-    "nodemon": "^2.0.13",
-    "supertest": "^6.1.6"
+    "dotenv": "10.0.0",
+    "eslint": "7.11.0",
+    "jest": "26.6.0",
+    "nodemon": "2.0.13",
+    "supertest": "6.1.6"
   },
   "jest": {
     "testEnvironment": "node"

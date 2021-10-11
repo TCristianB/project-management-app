@@ -1,0 +1,137 @@
+.dashboard {
+	color: #344464;
+	display: grid;
+	grid-template-areas: "nav"
+	                     "main";
+}
+
+.nav {
+	display: flex;
+	justify-content: flex-end;
+	grid-area: nav;
+}
+
+.sidebar {
+	grid-area: sidebar;
+}
+
+.main {
+	grid-area: main;
+	padding-left: 10px;
+	margin-right: 20px;
+}
+
+.main__chart {
+	width: 200px;
+	background-color: white;
+	border-radius: 5%;
+	width: 70%;
+	padding: 10px;
+}
+ 
+.main h2{
+	margin-left: 10px;
+}
+
+.main__pie-chart {
+	display: flex;
+	justify-content: space-around;
+	background-color: white;
+	border-radius: 5%;
+	margin-top: 5px;
+	padding: 10px 0 25px 0;
+}
+
+.pie-chart {
+	width: 150px;
+}
+
+.main__tickets {
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+
+.main__tickets--title {
+	color: #344464
+}
+
+.main__tickets--table {
+	border-collapse: collapse;
+	margin-top: 20px;
+	background-color: white;
+	border-radius: 5%;
+}
+
+.main__tickets--table thead {
+	display: none;
+}
+
+.main__tickets--table, .table tbody, .table tr, .table td {
+	display: block;
+}
+
+.main__tickets--table td, .main__tickets--table th {
+	padding: 10px 5px;
+}
+
+.tickets__table--button {
+	display: none;
+}
+
+@media screen and (min-width: 480px) {
+	.main__tickets--table td, .main__tickets--table th {
+		padding: 10px 10px;
+	}
+	.tickets__table--button {
+		display: table-cell;
+	}
+
+}
+
+@media screen and (min-width: 576px) {
+	.main__chart {
+		width: 50%;
+		margin-bottom: 20px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.main__tickets--table thead {
+		display: table-header-group
+	}
+
+	.main__tickets--table td, .main__tickets--table th {
+		padding: 15px 15px;
+	}
+
+	.pie-chart {
+		width: 250px;
+	}
+
+}
+
+@media screen and (min-width: 1024px) {
+	.dashboard {
+		grid-template-columns: 25% 75%;
+		grid-template-areas:"sidebar nav"
+	                     	"sidebar main";
+	}
+
+	.main__chart {
+		width: 30%;
+		margin-bottom: 20px;
+	}
+
+	.pie-chart {
+		width: 200px;
+	}
+}
+
+@media screen and (min-width: 1440px) {
+	.dashboard {
+		grid-template-columns: 20% 80%;
+	}
+}
+
+/* min-width: 1024px */
+/* min-width: 1603px */
