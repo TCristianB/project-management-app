@@ -10,7 +10,7 @@
 	transition: .7s;
 }
 
-i {
+.bars-icon {
 	font-size: 30px;
 	position: absolute;
 	top: 10px;
@@ -50,6 +50,11 @@ i {
 	border-radius: 5%;
 }
 
+.sidebar-icons {
+	color: white;
+	margin-right: 6px;
+}
+
 .selected {
 	background-color: #133461;
 }
@@ -61,25 +66,25 @@ i {
 
 
 @media screen and (min-width: 480px) {
-	i {
+	.bars-icon {
 		right: -9%
 	}
 }
 
 @media screen and (min-width: 576px) {
-	i {
+	.bars-icon {
 		right: -8%
 	}
 }
 
 @media screen and (min-width: 768px) {
-	i {
+	.bars-icon {
 		right: -6%
 	}
 }
 
 @media screen and (min-width: 1024px) {
-	i {
+	.bars-icon {
 		display: none !important;
 	}
 
