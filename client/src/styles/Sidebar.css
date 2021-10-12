@@ -83,7 +83,7 @@ i {
 		display: none !important;
 	}
 
-	.open {
+	.sidebar {
 		left:unset;
 		width: unset;
 	}

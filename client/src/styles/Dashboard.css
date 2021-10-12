@@ -131,7 +131,12 @@
 	.dashboard {
 		grid-template-columns: 20% 80%;
 	}
-}
 
-/* min-width: 1024px */
-/* min-width: 1603px */
+	.pie-chart {
+		width: 250px;
+	}
+
+	.pie-chat__title{ 
+		font-size: 24px;
+	}
+}

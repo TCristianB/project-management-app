@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import './App.css'
 
 import Dashboard from './pages/Dashboard'
+import Projects from './pages/Projects'
 
 function App() {
 	return (
@@ -12,6 +13,7 @@ function App() {
 					<Redirect to='/dashboard' />
 				</Route>
 				<Route exact path='/dashboard' component={Dashboard}></Route>
+				<Route exact path='/projects' component={Projects}></Route>
 				<Route exact default path='/login'></Route>
 				<Route exact path='/register'></Route>
 			</Switch>

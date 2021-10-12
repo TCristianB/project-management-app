@@ -33,7 +33,7 @@ const Dashboard = () => {
 				</div>
 				<div className="main__pie-chart">
 					<div className="pie-chart pie-chart__ticket-type">
-						<p>Ticket by type</p>
+						<p className="pie-chat__title">Ticket by type</p>
 						<Pie
 							data={{
 								labels: ['backend', "frontend", "UI"],
@@ -46,7 +46,7 @@ const Dashboard = () => {
 							height={15} />
 					</div>
 					<div className="pie-chart">
-						<p>Ticket by priority</p>
+						<p className="pie-chat__title">Ticket by priority</p>
 						<Pie
 							data={{
 								labels: ['low', "medium", "high"],
