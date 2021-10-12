@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import '../styles/Projects.css'
 
@@ -17,10 +18,19 @@ const Projects = () => {
 				<div className="main-projects__nav">
 					<h2>All Projects</h2>
 					<div className="main-project__action">
-						<input type="text" />
-						<button className="main-project__action--button">Add project</button>
+						<input className="main-project__input" type="text" placeholder="Search..." />
+						<Link to="/new-project" className="main-project__action--button">Add project</Link>
 					</div>
-					<ProjectBox />
+					<div className="main__project-area">
+						<ProjectBox />
+						<ProjectBox />
+						<ProjectBox />
+						<ProjectBox />
+						<ProjectBox />
+						<ProjectBox />
+						<ProjectBox />
+						<ProjectBox />
+					</div>
 				</div>
 			</main>
 		</div>

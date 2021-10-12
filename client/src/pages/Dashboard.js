@@ -65,6 +65,7 @@ const Dashboard = () => {
 						<thead>
 							<tr>
 								<th>Id</th>
+								<th>Ticket Name</th>
 								<th>Ticket Type</th>
 								<th>Ticket Priority</th>
 								<th>Assigned To</th>
@@ -75,14 +76,14 @@ const Dashboard = () => {
 						<tbody>
 							<tr>
 								<td>1</td>
+								<td className="tickets__table--name">Este es el nombre de mi ticket</td>
 								<td>Backend</td>
 								<td>High</td>
 								<td>John</td>
 								<td>Project 1</td>
 								<td>Mark</td>
 								<td className="tickets__table--button">Click</td>
-							</tr>
-							
+							</tr>	
 						</tbody>
 					</table>
 				</div>

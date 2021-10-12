@@ -1,0 +1,6 @@
+.create-project {
+	color: #344464;
+	display: grid;
+	grid-template-areas: "nav"
+	                     "main";
+}

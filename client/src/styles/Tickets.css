@@ -1,0 +1,28 @@
+.tickets {
+	color: #344464;
+	display: grid;
+	grid-template-areas: "nav"
+	                     "main";
+}
+
+.main__filter--select {
+	padding: 10px 15px;
+	border: 0;
+	outline: none;
+}
+
+@media screen and (min-width: 576px) {
+	.tickets__table--name {
+		display: table-cell
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	.ticket_table {
+		margin-left: 260px;
+	}
+
+	.main__header {
+		margin-left: 260px;
+	}
+}

@@ -34,10 +34,10 @@ const Sidebar = () => {
 						<Link to='/projects' className="list__item--text">Projects</Link>
 					</li>
 					<li className="sidebar__list--item">
-						<Link className="list__item--text">Tickets</Link>
+						<Link to='/tickets' className="list__item--text">Tickets</Link>
 					</li>
 					<li className="sidebar__list--item">
-						<Link className="list__item--text">Create ticket</Link>
+						<Link to='/new-ticket' className="list__item--text">Create ticket</Link>
 					</li>
 				</ul>
 			</div>

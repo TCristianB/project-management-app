@@ -74,7 +74,11 @@
 	padding: 10px 5px;
 }
 
-.tickets__table--button {
+.name_table {
+	display: none;
+}
+
+.tickets__table--name {
 	display: none;
 }
 
@@ -93,6 +97,10 @@
 		width: 50%;
 		margin-bottom: 20px;
 	}
+
+	.tickets__table--name {
+		display: table-cell;
+	}	
 }
 
 @media screen and (min-width: 768px) {

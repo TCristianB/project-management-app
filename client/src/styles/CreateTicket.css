@@ -1,0 +1,56 @@
+.create-ticket {
+	color: #344464;
+	display: grid;
+	grid-template-areas: "nav"
+	                     "main";
+}
+
+
+.main_form{
+	background-color: white;
+	margin-top: 50px;
+	padding-bottom: 50px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 270px;
+	justify-self: center;
+}
+
+.main__form-section {
+	margin-bottom: 10px;
+}
+
+.main__form-section input {
+	padding: 5px;
+	margin-top: 10px;
+}
+
+.main__form-section select {
+	padding: 8px;
+	margin-top: 18px;
+}
+
+.main__form--button {
+	background-color: #06ac5c;
+	color: white;
+	margin-top: 20px;
+	padding: 10px 20px;
+	border: 0;
+	border-radius: 5%;
+	
+}
+
+@media screen and (min-width: 576px)  {
+	.main_form {
+		width: 400px;
+	}
+}
+
+
+@media screen and (min-width: 1024px) {
+	.main_form {
+		margin-left: 350px;
+		width: 500px;
+	}
+}
