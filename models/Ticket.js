@@ -17,7 +17,12 @@ const ticketSchema = new Schema({
 	ticketPriority: {
 		type: String,
 		required: true
+	},
+	ticketAssigned: {
+		type: Schema.Types.ObjectId
 	}
+},{
+	timestamps: true
 })
 
 const Ticket = model('Ticket', ticketSchema)

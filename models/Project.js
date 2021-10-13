@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose')
+const { Schema, model } = require('mongoose')
 
 const projectSchema = new Schema({
 	title: {
@@ -11,10 +11,20 @@ const projectSchema = new Schema({
 		type: String,
 		trim: true
 	},
-	date: { 
-		type: Date, 
-		default: Date.now 
-	}
+	date: {
+		type: Date,
+		default: Date.now
+	},
+	owner: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		ref: 'User'
+	},
+	developers: [{
+		type: Schema.Types.ObjectId
+	}]
+},{
+	timestamps: true
 })
 
 const Project = model('Project', projectSchema)
