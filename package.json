@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon index.js",
+	"build": "cd client && npm run build",
+	"install-client": "cd client && npm install",
+	"heroku-postbuild": "npm run install-client && npm run build",
     "eslint": "eslint .",
-    "start": "NODE_ENV=production jest node index.js",
+    "start": "NODE_ENV=production node index.js",
     "test": "NODE_ENV=test PORT=8001 jest --silent --detectOpenHandles",
     "test:watch": "npm run test -- --watch"
   },
