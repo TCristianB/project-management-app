@@ -80,10 +80,8 @@ const Dashboard = () => {
 			.catch(e => console.log(e))
 	}
 
-	if (tickets.length > 0) {
-		getAllDates()
-		getPriorityAndType()
-	}
+	getAllDates()
+	getPriorityAndType()
 
 	return (
 		<div className="dashboard">
@@ -171,7 +169,7 @@ const Dashboard = () => {
 							{tickets.length > 0 && tickets.slice(pagesVisited, pagesVisited + usersPerPage).map((ticket, index) => {
 								const { _id, title, ticketType, ticketPriority, ticketProjectName, ownerName, ticketDeveloperName, owner } = ticket
 								let checkOwner = true
-								
+
 								// Check if userId is equal to the owner of the project
 								// If it's true the user should be able to edit an delete the ticket
 								if (owner !== userId) {

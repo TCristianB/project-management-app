@@ -30,7 +30,7 @@ const Header = () => {
 	return (
 		<header className="header">
 			<div className="user__data">
-				<p className="user__data--name">{userName}</p>
+				<p className="user__data--name"><Link to="/me" className="user__profile-link">{userName}</Link></p>
 				<Link to="/login" className="user__data--logout" onClick={logoutAdmin}>Logout</Link>
 				{errorMessage && <Notification message={errorMessage} />}
 			</div>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import './App.css'
 
 import Dashboard from './pages/Dashboard'
+import Profile from './pages/Profile'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Projects from './pages/Projects'
@@ -23,6 +24,7 @@ function App() {
 					<Redirect to='/dashboard' />
 				</Route>
 				<Route exact path='/dashboard' component={Dashboard}></Route>
+				<Route exact path='/me' component={Profile}></Route>
 				<Route exact path='/register' component={Register}></Route>
 				<Route exact default path='/login' component={Login}></Route>
 				<Route exact path='/projects' component={Projects}></Route>

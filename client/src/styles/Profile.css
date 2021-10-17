@@ -1,0 +1,21 @@
+.profile {
+	color: #344464;
+	display: grid;
+	grid-template-areas: "nav"
+	                     "main";
+}
+
+.main__profile {
+	background-color: white;
+	padding: 20px 0;
+}
+
+.main__profile--text {
+	margin-left: 10px;
+}
+
+@media screen and (min-width: 1024px) {
+	.main__profile {
+		margin-left: 260px;
+	}
+}

@@ -12,6 +12,11 @@
 	margin: 0 10px;
 }
 
+.user__profile-link {
+	text-decoration: none;	
+	color: #344464;
+}
+
 .user__data--logout {
 	margin: 0 10px;
 	text-decoration: none;

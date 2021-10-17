@@ -7,6 +7,7 @@ import '../styles/Ticket.css'
 
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
+import Loading from '../components/Loading'
 
 const Ticket = () => {
 	const [ticket, setTicket] = useState()
@@ -46,19 +47,7 @@ const Ticket = () => {
 
 
 	if (!ticket) {
-		return (
-			<div className="tickets">
-				<nav className="nav">
-					<Header />
-				</nav>
-				<Sidebar />
-				<div className="main">
-					<div className="main__header">
-						<p>Loading...</p>
-					</div>
-				</div>
-			</div>
-		)
+		return <Loading />
 	}
 
 	return (
