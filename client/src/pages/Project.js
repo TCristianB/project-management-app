@@ -44,7 +44,6 @@ const Project = () => {
 		}
 	}, [params])
 
-
 	// Setting the date
 	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -160,7 +159,15 @@ const Project = () => {
 								</thead>
 								<tbody>
 									{tickets && tickets.map((ticket, index) => {
-										const { _id, title, ticketType, ticketPriority, ticketProjectName, ownerName, ticketDeveloperName } = ticket
+										const { _id, title, ticketType, ticketPriority, ticketProjectName, ownerName, ticketDeveloperName, owner } = ticket
+										let checkOwner = true
+
+										// Check if userId is equal to the owner of the project
+										// If it's true the user should be able to edit an delete the ticket
+										if (owner !== userId) {
+											checkOwner = false
+										}
+
 										return (
 											<tr key={_id}>
 												<td>{index}</td>
@@ -170,9 +177,12 @@ const Project = () => {
 												<td>{ticketDeveloperName}</td>
 												<td>{ticketProjectName}</td>
 												<td>{ownerName}</td>
-												<td className="tickets__table--button">Click</td>
-												<td className="item-table tickets__table--button"><Link to={`/tickets/update/${_id}`} className="edit-button">Edit</Link></td>
-												<td className="item-table tickets__table--button"><button onClick={() => deleteTicket(_id)} className="delete-button">Delete</button></td>
+												{checkOwner && (
+													<>
+														<td className="item-table tickets__table--button"><Link to={`/tickets/update/${_id}`} className="edit-button">Edit</Link></td>
+														<td className="item-table tickets__table--button"><button onClick={() => deleteTicket(_id)} className="delete-button">Delete</button></td>
+													</>
+												)}
 											</tr>
 										)
 									})}
