@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
 	try {
 		const token = await user.generateAuthToken()
 		await user.save()
-		res.status(201).send({ user, token })
+		res.status(200).cookie('jwt', token, { httpOnly: true }).send({id: user._id, name: user.name})
 	} catch (e) {
 		res.status(400).send()
 	}
@@ -26,7 +26,7 @@ exports.logInUser = async (req, res) => {
 	try {
 		const user = await User.findByCredentials(req.body.email, req.body.password)
 		const token = await user.generateAuthToken()
-		res.status(200).send({ user, token })
+		res.status(200).cookie('jwt', token, { httpOnly: true }).send({id: user._id, name: user.name})
 	} catch (e) {
 		res.status(500).send()
 	}

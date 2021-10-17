@@ -11,3 +11,9 @@
 	color: #344464;
 	margin: 0 10px;
 }
+
+.user__data--logout {
+	margin: 0 10px;
+	text-decoration: none;
+	color: #06ac5c;
+}

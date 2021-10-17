@@ -1,0 +1,18 @@
+.assign-developer {
+	color: #344464;
+	display: grid;
+	grid-template-areas: "nav"
+	                     "main";
+}
+
+.assign-user {
+	background-color: white;
+}
+
+.users-list {
+	margin-top: 30px;
+}
+
+.user-list {
+	margin-bottom: 5px;
+}

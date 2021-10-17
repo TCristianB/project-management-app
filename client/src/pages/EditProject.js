@@ -1,5 +1,5 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -15,22 +15,38 @@ const schema = yup.object().shape({
 	description: yup.string().required('Description is a required field'),
 })
 
-const CreateProject = () => {
+
+const EditProject = () => {
+	const [projectData, setProjectData] = useState()
+	const params = useParams()
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		resolver: yupResolver(schema)
 	})
 	const history = useHistory()
-	const userName = window.localStorage.getItem('User')
-	
+
+	useEffect(() => {
+		axios.get(`/api/projects/${params.id}`)
+			.then(res => {
+				setProjectData(res.data)
+			}).catch(e => {
+				if(e.response.status === 404) {
+					
+				}
+				console.log(e.response.status)
+			})
+	}, [params])
+
 	const submitForm = (data) => {
-		const newData = {
-			...data,
-			ownerName: userName
-		}
-		axios.post('/api/projects', newData)
+		console.log(data)
+		try {
+			axios.patch(`/api/projects/${params.id}`, data)
 			.then(() => {
 				history.push('/projects')
 			})
+		} catch(e) {
+			console.log(e)
+		}
+		
 	}
 
 	return (
@@ -39,8 +55,9 @@ const CreateProject = () => {
 				<Header />
 			</nav>
 			<SideBar />
-			<main className="main main_form">
-				<h2>Create a new Project</h2>
+			{projectData && (
+				<main className="main main_form">
+				<h2>Edit Project</h2>
 				<form onSubmit={handleSubmit(submitForm)}>
 					<div className="main__form-section">
 						<label htmlFor="project-title">Title</label><br />
@@ -48,6 +65,7 @@ const CreateProject = () => {
 							id="project-title"
 							type="text"
 							name="title"
+							defaultValue={projectData.title}
 							{...register('title', { required: 'Required' })}
 						></input>
 						{errors.title && <p className="errors-message">{errors.title.message}</p>}
@@ -58,15 +76,17 @@ const CreateProject = () => {
 							rows="10"
 							cols="30"
 							name="description"
+							defaultValue={projectData.description}
 							{...register('description', { required: 'Required' })}
 						></textarea>
 						{errors.description && <p className="errors-message">{errors.description.message}</p>}
 					</div>
-					<button className="main__form--button" type="submit">Create project</button>
+					<button className="main__form--button" type="submit">Update project</button>
 				</form>
 			</main>
+			)}
 		</div >
 	)
 }
 
-export default CreateProject
+export default EditProject

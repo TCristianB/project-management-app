@@ -18,10 +18,29 @@ const ticketSchema = new Schema({
 		type: String,
 		required: true
 	},
-	ticketAssigned: {
+	ticketDeveloper: {
 		type: Schema.Types.ObjectId
+	},
+	ticketDeveloperName: {
+		type: String
+	},
+	owner: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		ref: 'User'
+	},
+	ownerName: {
+		type: String
+	},
+	ticketProject: {
+		type: Schema.Types.ObjectId,
+		required: true,
+		ref: 'Project'
+	},
+	ticketProjectName: {
+		type: String
 	}
-},{
+}, {
 	timestamps: true
 })
 

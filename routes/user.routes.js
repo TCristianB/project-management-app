@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { getUsers, createUser, logInUser, logOutUser,getUserById, updateUser } = require('../controllers/user.controllers.js')
+const { getUsers, createUser, logInUser, logOutUser, getUserById, updateUser } = require('../controllers/user.controllers.js')
 const auth = require('../middleware/auth')
+
 // GET all users
 router.get('/', getUsers)
 

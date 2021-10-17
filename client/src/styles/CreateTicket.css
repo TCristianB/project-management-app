@@ -15,6 +15,7 @@
 	align-items: center;
 	width: 270px;
 	justify-self: center;
+	margin-bottom: 50px;
 }
 
 .main__form-section {
@@ -38,7 +39,7 @@
 	padding: 10px 20px;
 	border: 0;
 	border-radius: 5%;
-	
+	cursor: pointer;
 }
 
 @media screen and (min-width: 576px)  {

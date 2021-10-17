@@ -82,6 +82,46 @@
 	display: none;
 }
 
+.edit-button {
+	text-decoration: none;
+	color: white;
+	background-color: #344464;
+	padding: 5px 10px;
+}
+
+.delete-button {
+	text-decoration: none;
+	color: white;
+	background-color: #344464;
+	padding: 5px 10px;
+	border: 0;
+	cursor: pointer;
+	font-size: 15px;
+}
+
+.paginationBtns {
+	width: 80%;
+	height: 40px;
+	margin-top: 30px;
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+}
+
+.paginationBtns a {
+	padding: 10px;
+	margin: 8px;
+	border-radius: 3%;
+	border: 1px solid #344464;
+	color: #344464;
+	cursor: pointer;
+	user-select: none; /* supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+}
+
 @media screen and (min-width: 480px) {
 	.main__tickets--table td, .main__tickets--table th {
 		padding: 10px 10px;
@@ -114,6 +154,10 @@
 
 	.pie-chart {
 		width: 250px;
+	}
+
+	.item-table {
+		padding-right: 30px;
 	}
 
 }

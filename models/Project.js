@@ -20,11 +20,25 @@ const projectSchema = new Schema({
 		required: true,
 		ref: 'User'
 	},
+	ownerName: {
+		type: String
+	},
 	developers: [{
-		type: Schema.Types.ObjectId
+		_id: {
+			type: String,
+		},
+		name: {
+			type: String
+		}
 	}]
 },{
 	timestamps: true
+})
+
+projectSchema.virtual('tickets', {
+	ref: 'Ticket',
+	localField: '_id',
+	foreignField: 'ticketProject'
 })
 
 const Project = model('Project', projectSchema)

@@ -2,10 +2,10 @@ const Project = require('../models/Project')
 
 exports.getProjets = async (req, res) => {
 	try {
-		const projects = await Project.find({ developers: req.user._id })
+		const projects = await Project.find({})
 		await req.user.populate({ path: 'projects' })
 
-		res.status(200).send({projectOwner: req.user.projects, projects})
+		res.status(200).send({projects: projects})
 	} catch (e) {
 		res.status(400).send()
 	}
@@ -28,7 +28,7 @@ exports.createProject = async (req, res) => {
 exports.getProjectById = async (req, res) => {
 	const _id = req.params.id
 	try {
-		const project = await Project.findOne({ _id, owner: req.user._id })
+		const project = await Project.findOne({ _id})
 
 		if (!project) {
 			res.status(404).send()
@@ -44,7 +44,7 @@ exports.updateProject = async (req, res) => {
 	const _id = req.params.id
 
 	const updates = Object.keys(req.body)
-	const allowedUpdates = ['title', 'description']
+	const allowedUpdates = ['title', 'description', 'developers', 'owner', 'date', 'createdAt', 'updatedAt']
 	const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
 	if (!isValidOperation) {
@@ -65,6 +65,7 @@ exports.updateProject = async (req, res) => {
 
 		res.status(200).send(project)
 	} catch (e) {
+		console.log(e)
 		res.status(500).send()
 	}
 }

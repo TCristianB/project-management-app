@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -22,6 +22,8 @@ const schema = yup.object().shape({
 const CreateTicket = () => {
 	const [users, setUsers] = useState([])
 	const [projects, setProjects] = useState([])
+	const [ticket, setTicket] = useState()
+	const params = useParams()
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		resolver: yupResolver(schema)
 	})
@@ -40,6 +42,11 @@ const CreateTicket = () => {
 				setProjects(res.data.projects)
 			})
 	}, [])
+	useEffect(() => {
+		axios.get(`/api/tickets/${params.id}`)
+		.then(res => setTicket(res.data))
+	}, [params])
+
 
 	const submitForm = async (data) => {
 		const ticketProject = data.ticketProject.split("|")[0]
@@ -53,12 +60,13 @@ const CreateTicket = () => {
 			ticketDeveloper,
 			ticketDeveloperName
 		}
-		axios.post('/api/tickets', ticket)
+		axios.patch(`/api/tickets/${params.id}`, ticket)
 			.then(() => {
 				history.push('/tickets')
 			})
-			.catch(e => console.log(e))  
+			.catch(e => console.log(e))
 	}
+	
 	return (
 		<div className="create-ticket">
 			<nav className="nav">
@@ -66,14 +74,16 @@ const CreateTicket = () => {
 			</nav>
 			<SideBar />
 			<main className="main main_form">
-				<h2>Create a new ticket</h2>
-				<form onSubmit={handleSubmit(submitForm)}>
+				<h2>Edit a ticket</h2>
+				{ticket && (
+					<form onSubmit={handleSubmit(submitForm)}>
 					<div className="main__form-section">
 						<label htmlFor="title">Title</label><br />
 						<input
 							id="title"
 							type="text"
 							name="title"
+							defaultValue={ticket.title}
 							{...register('title', { required: 'Required' })}
 						/>
 						{errors.title && <p className="errors-message">{errors.title.message}</p>}
@@ -84,6 +94,7 @@ const CreateTicket = () => {
 							rows="10"
 							cols="30"
 							name="description"
+							defaultValue={ticket.description}
 							{...register('description', { required: 'Required' })}
 						></textarea>
 						{errors.description && <p className="errors-message">{errors.description.message}</p>}
@@ -92,6 +103,7 @@ const CreateTicket = () => {
 						<label htmlFor="ticketType">Ticket Type</label><br />
 						<select
 							name="ticketType"
+							defaultValue={ticket.ticketType}
 							{...register('ticketType', { required: 'Required' })}
 						>
 							<option value="UI">UI</option>
@@ -104,10 +116,11 @@ const CreateTicket = () => {
 						<label htmlFor="ticketProject">Project</label><br />
 						<select
 							name="ticketProject"
+							defaultValue={`${ticket.ticketProject}|${ticket.ticketProjectName}`}
 							{...register('ticketProject', { required: 'Required' })}
 						>
 							{projects && projects.map(project => {
-								const {_id, title} = project
+								const { _id, title } = project
 								return <option key={_id} value={`${_id}|${title}`}>{title}</option>
 							})}
 						</select>
@@ -117,6 +130,7 @@ const CreateTicket = () => {
 						<label htmlFor="ticketPriority">Ticket Priority</label><br />
 						<select
 							name="ticketPriority"
+							defaultValue={ticket.ticketPriority}
 							{...register('ticketPriority', { required: 'Required' })}
 						>
 							<option value="High">High</option>
@@ -129,17 +143,19 @@ const CreateTicket = () => {
 						<label htmlFor="ticketDeveloper">Assigned developer</label><br />
 						<select
 							name="ticketDeveloper"
+							defaultValue={`${ticket.ticketDeveloper}|${ticket.ticketDeveloperName}`}
 							{...register('ticketDeveloper', { required: 'Required' })}
 						>
 							{users && users.map((user) => {
 								const { _id, name, lastName } = user
-								return <option key={_id} value={`${_id}|${name}`}>{name} {lastName}</option>
+								return <option key={_id} value={_id}>{name} {lastName}</option>
 							})}
 						</select>
 						{errors.ticketDeveloper && <p className="errors-message">{errors.ticketDeveloper.message}</p>}
 					</div>
-					<button className="main__form--button" type="submit">Create ticket</button>
+					<button className="main__form--button" type="submit">Edit ticket</button>
 				</form>
+				)}
 			</main>
 		</div>
 	)

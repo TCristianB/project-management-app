@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Bar, Pie } from 'react-chartjs-2'
+import ReactPaginate from 'react-paginate'
 
 import '../styles/Dashboard.css'
 
@@ -9,6 +11,7 @@ import Sidebar from '../components/Sidebar'
 
 const Dashboard = () => {
 	const [tickets, setTickets] = useState([])
+	const [pageNumber, setPageNumber] = useState(0)
 	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 	];
@@ -17,12 +20,10 @@ const Dashboard = () => {
 		axios.get('/api/tickets')
 			.then(res => {
 				setTickets(res.data)
-
 			})
-
 	}, [])
 
-	const counts = { "12 oct": 4 }
+	const counts = {}
 	const getAllDates = () => {
 		const dates = []
 		for (let i = 0; i < tickets.length; i++) {
@@ -33,7 +34,6 @@ const Dashboard = () => {
 		dates.forEach((date) => {
 			return counts[date] = (counts[date] || 0) + 1
 		})
-		return counts
 	}
 
 	const countsPriority = {}
@@ -58,10 +58,29 @@ const Dashboard = () => {
 		})
 	}
 
+	const usersPerPage = 6
+	const pagesVisited = pageNumber * usersPerPage
+	const pageCount = Math.ceil(tickets.length / usersPerPage)
+	const changePage = ({ selected }) => {
+		setPageNumber(selected)
+	}
+
+	// Delete a ticket
+	const deleteTicket = (id) => {
+		axios.delete(`/api/tickets/${id}`)
+			.then(() => {
+				setTickets(tickets.filter((user) => {
+                    return user._id !== id
+                }))
+			})
+			.catch(e => console.log(e))
+	}
+
 	if (tickets.length > 0) {
 		getAllDates()
 		getPriorityAndType()
 	}
+
 	return (
 		<div className="dashboard">
 			<nav className='nav'>
@@ -135,33 +154,45 @@ const Dashboard = () => {
 					<table className="main__tickets--table">
 						<thead>
 							<tr>
-								<th>Id</th>
-								<th>Ticket Name</th>
-								<th>Ticket Type</th>
-								<th>Ticket Priority</th>
-								<th>Assigned To</th>
-								<th>Project</th>
-								<th>Owner</th>
+								<th className="item-table">#</th>
+								<th className="item-table">Ticket Name</th>
+								<th className="item-table">Ticket Type</th>
+								<th className="item-table">Ticket Priority</th>
+								<th className="item-table">Assigned To</th>
+								<th className="item-table">Project</th>
+								<th className="item-table">Owner</th>
 							</tr>
 						</thead>
 						<tbody>
-							{tickets.length > 0 && tickets.map((ticket, index )=> {
-								const {_id, title, ticketType, ticketPriority} = ticket
+							{tickets.length > 0 && tickets.slice(pagesVisited, pagesVisited + usersPerPage).map((ticket, index) => {
+								const { _id, title, ticketType, ticketPriority, ticketProjectName, ownerName, ticketDeveloperName } = ticket
 								return (
 									<tr key={_id}>
-										<td>{index}</td>
-										<td className="tickets__table--name">{title}</td>
-										<td>{ticketType}</td>
-										<td>{ticketPriority}</td>
-										<td>John</td>
-										<td>Project 1</td>
-										<td>Mark</td>
-										<td className="tickets__table--button">Click</td>
+										<td className="item-table">{index}</td>
+										<td className="item-table tickets__table--name">{title}</td>
+										<td className="item-table">{ticketType}</td>
+										<td className="item-table">{ticketPriority}</td>
+										<td className="item-table">{ticketDeveloperName}</td>
+										<td className="item-table">{ticketProjectName}</td>
+										<td className="item-table">{ownerName}</td>
+										<td className="item-table tickets__table--button"><Link to={`/tickets/update/${_id}`} className="edit-button">Edit</Link></td>
+										<td className="item-table tickets__table--button"><button onClick={() => deleteTicket(_id)}className="delete-button">Delete</button></td>
 									</tr>
 								)
 							})}
 						</tbody>
 					</table>
+					<ReactPaginate
+						previousLabel={"Previous"}
+						nextLabel={"Next"}
+						pageCount={pageCount}
+						onPageChange={changePage}
+						containerClassName={"paginationBtns"}
+						previousClassName={"previousBtn"}
+						nextLinkClassName={"nextBtn"}
+						disabled={"paginationDisable"}
+						activeClassName={"paginationActive"}
+					/>
 				</div>
 			</main>
 		</div>
