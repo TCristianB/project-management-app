@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 
 import '../styles/Profile.css'
@@ -34,6 +35,7 @@ const Profile = () => {
 				</div>
 				<div className="main__profile">
 					<p className="main__profile--text">Email: <span>{me.email}</span></p>
+					<Link to="/me/update" className="update-profile-button">Update profile</Link>
 				</div>
 			</div>
 		</div>

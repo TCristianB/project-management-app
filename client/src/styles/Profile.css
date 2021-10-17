@@ -13,6 +13,17 @@
 .main__profile--text {
 	margin-left: 10px;
 }
+.form__update-user {
+	padding: 20px;
+}
+
+.update-profile-button {
+	margin-left: 10px;
+	text-decoration: none;
+	padding: 5px 10px;
+	background-color: #06ac5c;
+	color: white;
+}
 
 @media screen and (min-width: 1024px) {
 	.main__profile {

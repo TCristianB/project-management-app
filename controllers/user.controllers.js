@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
 	try {
 		const token = await user.generateAuthToken()
 		await user.save()
-		res.status(200).cookie('jwt', token, { httpOnly: true }).send({id: user._id, name: user.name})
+		res.status(200).cookie('jwt', token, { httpOnly: true }).send({ id: user._id, name: user.name })
 	} catch (e) {
 		res.status(400).send()
 	}
@@ -26,7 +26,7 @@ exports.logInUser = async (req, res) => {
 	try {
 		const user = await User.findByCredentials(req.body.email, req.body.password)
 		const token = await user.generateAuthToken()
-		res.status(200).cookie('jwt', token, { httpOnly: true }).send({id: user._id, name: user.name})
+		res.status(200).cookie('jwt', token, { httpOnly: true }).send({ id: user._id, name: user.name })
 	} catch (e) {
 		res.status(500).send()
 	}
@@ -61,8 +61,30 @@ exports.getUserById = async (req, res) => {
 exports.getMe = async (req, res) => {
 	try {
 		res.status(200).send(req.user)
-	}catch(e) {
+	} catch (e) {
 		res.status(500).send()
+	}
+}
+
+exports.updateMe = async (req, res) => {
+	const updates = Object.keys(req.body)
+	const allowedUpdates = ['name', 'lastName', 'email']
+	const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+	if (!isValidOperation) {
+		return res.status(400).send({ error: 'Invalid updates!' })
+	}
+
+	try {
+		updates.forEach((update) => {
+			req.user[update] = req.body[update]
+		})
+
+		await req.user.save()
+
+		res.status(200).send(req.user)
+	} catch (e) {
+		res.status(400).send(e)
 	}
 }
 
