@@ -26,6 +26,7 @@ const CreateTicket = () => {
 		resolver: yupResolver(schema)
 	})
 	const history = useHistory()
+	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
 		axios.get('/api/users')
@@ -107,8 +108,27 @@ const CreateTicket = () => {
 							{...register('ticketProject', { required: 'Required' })}
 						>
 							{projects && projects.map(project => {
-								const {_id, title} = project
-								return <option key={_id} value={`${_id}|${title}`}>{title}</option>
+								const {_id, title, owner, developers} = project
+								let checkOwner = true
+
+								const checkDeveloperExist = developers.find(element => element._id === userId)
+								
+								if(owner !== userId && !checkDeveloperExist) {
+									checkOwner = false
+								} else if(owner === userId && checkDeveloperExist) {
+									checkOwner = true
+								} else if(owner === userId  && !checkDeveloperExist) {
+									checkOwner = true
+								} else if(owner !== userId  && checkDeveloperExist) {
+									checkOwner = true
+								}
+
+								return (
+									<>
+									{checkOwner && <option key={_id} value={`${_id}|${title}`}>{title}</option>}
+									</>
+								)
+
 							})}
 						</select>
 						{errors.ticketProject && <p className="errors-message">{errors.ticketProject.message}</p>}

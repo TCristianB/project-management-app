@@ -29,7 +29,8 @@ const AssignDeveloper = () => {
 	const history = useHistory()
 
 	useEffect(() => {
-		setUsers(usersData)
+		axios.get('/api/users') 
+			.then((res) => setUsers(res.data))
 	}, [])
 
 	useEffect(() => {

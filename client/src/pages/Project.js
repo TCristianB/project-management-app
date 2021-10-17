@@ -134,7 +134,7 @@ const Project = () => {
 											const { _id, name } = developer
 											return <li
 												key={_id}
-												className="list__item">{name} <button type="button" onClick={() => deleteUser(_id)} className="delete-button">Delete</button></li>
+												className="list__item">{name} {project.owner === userId ? <button type="button" onClick={() => deleteUser(_id)} className="delete-button">Delete</button> : ''}</li>
 										})}
 									</ul>
 								</div>
