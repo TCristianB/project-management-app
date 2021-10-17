@@ -12,7 +12,6 @@ exports.getTickets = async (req, res) => {
 }
 
 exports.createTicket = async (req, res) => {
-	console.log(req.body)
 	const { title, description, ticketType, ticketPriority, ticketProject, ticketDeveloper } = req.body
 	const findTicketDeveloper = await User.findById(ticketDeveloper)
 	const findTicketProject = await Project.findById(ticketProject)
@@ -35,7 +34,6 @@ exports.createTicket = async (req, res) => {
 		}
 		res.status(201).send(ticket)
 	} catch (e) {
-		console.log(e)
 		res.status(400).send(e)
 	}
 }
