@@ -24,11 +24,13 @@ const CreateTicket = () => {
 	const [projects, setProjects] = useState([])
 	const [ticket, setTicket] = useState()
 	const params = useParams()
-	const userId = window.localStorage.getItem('UserId')
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		resolver: yupResolver(schema)
 	})
 	const history = useHistory()
+	
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
 		axios.get('/api/users')
@@ -73,6 +75,10 @@ const CreateTicket = () => {
 			return <Redirect to={`/tickets`}/>
 		}
 	}
+
+	if(!isAuthenticated) {
+		return <Redirect to="/login"/>
+	}	
 	
 	return (
 		<div className="create-ticket">

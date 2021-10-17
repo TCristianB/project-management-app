@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -18,6 +18,8 @@ const schema = yup.object().shape({
 	email: yup.string().email().required('Email is a required field'),
 })
 
+const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+
 const Register = () => {
 	const [errorMessage, setErrorMessage] = useState(null)
 	const [me, setMe] = useState()
@@ -32,7 +34,7 @@ const Register = () => {
 			.then(res => setMe(res.data))
 	}, [])
 
-	if(!me) {
+	if (!me) {
 		return <Loading />
 	}
 
@@ -55,6 +57,10 @@ const Register = () => {
 				setErrorMessage(null)
 			}, 5000)
 		}
+	}
+
+	if (!isAuthenticated) {
+		return <Redirect to="/login" />
 	}
 
 	return (

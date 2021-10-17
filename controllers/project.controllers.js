@@ -18,7 +18,10 @@ exports.createProject = async (req, res) => {
 	})
 
 	try {
-		await project.save()
+		if(req.user.email !== 'demo@example.com') {
+			await project.save()
+		}
+
 		res.status(201).send(project)
 	} catch (e) {
 		res.status(400).send()
@@ -61,7 +64,9 @@ exports.updateProject = async (req, res) => {
 			project[update] = req.body[update]
 		})
 
-		await project.save()
+		if(req.user.email !== 'demo@example.com') {
+			await project.save()
+		}
 
 		res.status(200).send(project)
 	} catch (e) {
@@ -74,8 +79,11 @@ exports.deleteProject = async (req, res) => {
 	const _id = req.params.id
 
 	try {
-		const project = await Project.findOneAndDelete({ _id, owner: req.user._id })
+		if(req.user.email === 'demo@example.com') {
+			return res.status(405).send()
+		}
 
+		const project = await Project.findOneAndDelete({ _id, owner: req.user._id })
 		if (!project) {
 			return res.status(404).send()
 		}

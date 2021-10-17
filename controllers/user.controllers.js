@@ -26,7 +26,7 @@ exports.logInUser = async (req, res) => {
 	try {
 		const user = await User.findByCredentials(req.body.email, req.body.password)
 		const token = await user.generateAuthToken()
-		res.status(200).cookie('jwt', token, { httpOnly: true }).send({ id: user._id, name: user.name })
+		res.status(200).cookie('jwt', token, { httpOnly: true }).send({ id: user._id, name: user.name, email: user.email })
 	} catch (e) {
 		res.status(500).send()
 	}
@@ -37,8 +37,7 @@ exports.logOutUser = async (req, res) => {
 		req.user.tokens = req.user.tokens.filter((token) => {
 			return token.token !== req.token
 		})
-		await req.user.save()
-		res.status(200).send(req.user)
+		res.status(200).clearCookie('jwt').send()
 	} catch (e) {
 		res.status(500).send()
 	}
@@ -79,8 +78,10 @@ exports.updateMe = async (req, res) => {
 		updates.forEach((update) => {
 			req.user[update] = req.body[update]
 		})
-
-		await req.user.save()
+		
+		if(req.user.email !== 'demo@example.com') {
+			await req.user.save()
+		}
 
 		res.status(200).send(req.user)
 	} catch (e) {

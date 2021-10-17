@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, Redirect } from 'react-router-dom'
 import { useParams } from 'react-router'
 import axios from 'axios'
 
@@ -20,6 +20,7 @@ const Ticket = () => {
 			.then(res => setTicket(res.data))
 	}, [params])
 
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 
 	// Setting the date
 	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -45,6 +46,9 @@ const Ticket = () => {
 			.catch(e => console.log(e))
 	}
 
+	if(!isAuthenticated) {
+		return <Redirect to="/login"/>
+	}	
 
 	if (!ticket) {
 		return <Loading />

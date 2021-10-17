@@ -1,13 +1,14 @@
 const Project = require('../models/Project')
 const Ticket = require('../models/Ticket')
+const User = require('../models/User')
 
 exports.createTicket = async () => {
 	const count = await Ticket.estimatedDocumentCount()
 
-	if(count > 0) return
+	if (count > 0) return
 
 	try {
-		const values = await Promise.all([
+		await Promise.all([
 			new Ticket({
 				title: 'Ticket 1',
 				description: 'This is the description',
@@ -63,7 +64,7 @@ exports.createTicket = async () => {
 				ownerName: 'Cristian',
 				ticketDeveloper: '61699398ab9cbecec63cb2be',
 				ticketDeveloperName: 'Cristian'
-			}).save(),new Ticket({
+			}).save(), new Ticket({
 				title: 'Ticket 5',
 				description: 'This is the description',
 				ticketType: 'UI',
@@ -78,11 +79,10 @@ exports.createTicket = async () => {
 				ticketDeveloperName: 'Cristian'
 			}).save()
 		])
-		console.log(values)
-	} catch(e) {
+	} catch (e) {
 		console.log(e)
 	}
-	
+
 }
 
 exports.createProjects = async () => {
@@ -91,7 +91,7 @@ exports.createProjects = async () => {
 	if (count > 0) return
 
 	try {
-		const values = await Promise.all([
+		await Promise.all([
 			new Project({
 				title: 'Project 1',
 				description: 'This is the project 1',
@@ -151,10 +151,24 @@ exports.createProjects = async () => {
 				tickets: []
 			}).save()
 		])
-		console.log(values)
 	} catch (e) {
 		console.log(e)
 	}
+}
 
+exports.createDemoUser = async () => {
+	const count = await User.estimatedDocumentCount()
 
+	if (count > 0) return
+
+	try {
+		await new User({
+			name: 'Demo',
+			lastName: 'Demo',
+			email: 'demo@example.com',
+			password: 'test'
+		}).save()
+	} catch (e) {
+		console.log(e)
+	}
 }

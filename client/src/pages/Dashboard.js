@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import { Bar, Pie } from 'react-chartjs-2'
 import ReactPaginate from 'react-paginate'
@@ -8,6 +8,7 @@ import '../styles/Dashboard.css'
 
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
+import TicketTable from '../components/TicketTable'
 
 const Dashboard = () => {
 	const [tickets, setTickets] = useState([])
@@ -24,9 +25,11 @@ const Dashboard = () => {
 	}, [])
 
 	const userId = window.localStorage.getItem('UserId')
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+	const isDemo = window.localStorage.getItem('isDemo')
 
 
-
+	// Date settings
 	const counts = {}
 	const getAllDates = () => {
 		const dates = []
@@ -40,6 +43,7 @@ const Dashboard = () => {
 		})
 	}
 
+	// Pie chart settings
 	const countsPriority = {}
 	const countsType = {}
 	const getPriorityAndType = () => {
@@ -56,12 +60,9 @@ const Dashboard = () => {
 		}
 		counts(priorityCount, countsPriority)
 		counts(typeCount, countsType)
-		console.log({
-			countsPriority,
-			countsType
-		})
 	}
 
+	// Pagination settings
 	const usersPerPage = 6
 	const pagesVisited = pageNumber * usersPerPage
 	const pageCount = Math.ceil(tickets.length / usersPerPage)
@@ -80,6 +81,10 @@ const Dashboard = () => {
 			.catch(e => console.log(e))
 	}
 
+	if (!isAuthenticated) {
+		return <Redirect to="/login" />
+	}
+
 	getAllDates()
 	getPriorityAndType()
 
@@ -91,6 +96,7 @@ const Dashboard = () => {
 			<Sidebar />
 			<main className="main">
 				<h2>Dashboard</h2>
+				{isDemo && <h3>This account is a demo account, you can't make changes to the app.</h3>}
 				<div className="main__chart">
 					<Bar
 						data={{
@@ -153,59 +159,16 @@ const Dashboard = () => {
 				</div>
 				<div className="main__tickets">
 					<h3 className="main__tickets__title">All Tickets</h3>
-					<table className="main__tickets--table">
-						<thead>
-							<tr>
-								<th className="item-table">#</th>
-								<th className="item-table">Ticket Name</th>
-								<th className="item-table">Ticket Type</th>
-								<th className="item-table">Ticket Priority</th>
-								<th className="item-table">Assigned To</th>
-								<th className="item-table">Project</th>
-								<th className="item-table">Owner</th>
-							</tr>
-						</thead>
-						<tbody>
-							{tickets.length > 0 && tickets.slice(pagesVisited, pagesVisited + usersPerPage).map((ticket, index) => {
-								const { _id, title, ticketType, ticketPriority, ticketProjectName, ownerName, ticketDeveloperName, owner } = ticket
-								let checkOwner = true
-
-								// Check if userId is equal to the owner of the project
-								// If it's true the user should be able to edit an delete the ticket
-								if (owner !== userId) {
-									checkOwner = false
-								}
-
-								return (
-									<tr key={_id}>
-										<td className="item-table">{index}</td>
-										<td className="item-table tickets__table--name">{title}</td>
-										<td className="item-table">{ticketType}</td>
-										<td className="item-table">{ticketPriority}</td>
-										<td className="item-table">{ticketDeveloperName}</td>
-										<td className="item-table">{ticketProjectName}</td>
-										<td className="item-table">{ownerName}</td>
-										{checkOwner && (
-											<>
-												<td className="item-table tickets__table--button"><Link to={`/tickets/update/${_id}`} className="edit-button">Edit</Link></td>
-												<td className="item-table tickets__table--button"><button onClick={() => deleteTicket(_id)} className="delete-button">Delete</button></td>
-											</>
-										)}
-									</tr>
-								)
-							})}
-						</tbody>
-					</table>
-					<ReactPaginate
-						previousLabel={"Previous"}
-						nextLabel={"Next"}
+					<TicketTable
+						tickets={tickets}
+						userId={userId}
+						ReactPaginate={ReactPaginate}
 						pageCount={pageCount}
-						onPageChange={changePage}
-						containerClassName={"paginationBtns"}
-						previousClassName={"previousBtn"}
-						nextLinkClassName={"nextBtn"}
-						disabled={"paginationDisable"}
-						activeClassName={"paginationActive"}
+						changePage={changePage}
+						pagesVisited={pagesVisited}
+						usersPerPage={usersPerPage}
+						deleteTicket={deleteTicket}
+						passClass={"main__tickets--table"}
 					/>
 				</div>
 			</main>

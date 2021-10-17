@@ -23,6 +23,8 @@ const EditProject = () => {
 		resolver: yupResolver(schema)
 	})
 	const history = useHistory()
+
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
@@ -55,6 +57,10 @@ const EditProject = () => {
 			return <Redirect to={`/projects`}/>
 		}
 	}
+
+	if(!isAuthenticated) {
+		return <Redirect to="/login"/>
+	}	
 
 	return (
 		<div className="create-project">

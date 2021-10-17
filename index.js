@@ -6,7 +6,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '.env') })
 
 require('./db/mongoose')
 
-const { createTicket, createProjects } = require('./libs/InitialSetup')
+const { createTicket, createProjects, createDemoUser } = require('./libs/InitialSetup')
 
 const userRouter = require('./routes/user.routes')
 const projectsRouter = require('./routes/project.routes')
@@ -18,6 +18,7 @@ app.use(cookieParser())
 app.use(express.json())
 createProjects()
 createTicket()
+createDemoUser()
 
 app.use('/api/users', userRouter)
 

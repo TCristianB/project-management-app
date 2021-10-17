@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate'
 
@@ -13,6 +13,8 @@ const Tickets = () => {
 	const [pageNumber, setPageNumber] = useState(0)
 	const [searchTerm, setSearchTerm] = useState('')
 
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+
 	useEffect(() => {
 		axios.get('/api/tickets')
 			.then(res => {
@@ -21,7 +23,8 @@ const Tickets = () => {
 	}, [])
 
 	const userId = window.localStorage.getItem('UserId')
-	
+
+	// Paginate settings
 	const usersPerPage = 10
 	const pagesVisited = pageNumber * usersPerPage
 	const pageCount = Math.ceil(tickets.length / usersPerPage)
@@ -29,6 +32,7 @@ const Tickets = () => {
 		setPageNumber(selected)
 	}
 
+	// Delete a ticket
 	const deleteTicket = (id) => {
 		axios.delete(`/api/tickets/${id}`)
 			.then(() => {
@@ -37,6 +41,10 @@ const Tickets = () => {
 				}))
 			})
 			.catch(e => console.log(e))
+	}
+
+	if (!isAuthenticated) {
+		return <Redirect to="/login" />
 	}
 
 	return (

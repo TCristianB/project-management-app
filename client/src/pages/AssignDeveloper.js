@@ -24,6 +24,8 @@ const AssignDeveloper = () => {
 	const [error, setError] = useState('')
 	const params = useParams()
 	const history = useHistory()
+
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
@@ -76,6 +78,10 @@ const AssignDeveloper = () => {
 		}
 	}
 
+	if(!isAuthenticated) {
+		return <Redirect to="/login"/>
+	}	
+
 	return (
 		<div className="assign-developer">
 			<nav className="nav">
@@ -97,7 +103,6 @@ const AssignDeveloper = () => {
 												type="radio"
 												name="userList"
 												defaultValue={`${_id}|${name} ${lastName}`}
-												/* value={`${_id}|${name}`} */
 												{...register('userList', { required: 'Required' })}
 											/>
 											{name} {lastName}

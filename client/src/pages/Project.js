@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams, useHistory } from 'react-router-dom'
+import { Link, useParams, useHistory, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import '../styles/Project.css'
 
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
+import Notification from '../components/Notification'
 
 const Project = () => {
 	const [project, setProject] = useState()
@@ -14,6 +15,8 @@ const Project = () => {
 	const params = useParams()
 	const history = useHistory()
 	let checkOwner = true
+
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
 
@@ -111,6 +114,11 @@ const Project = () => {
 			checkOwner = false
 		}
 	}
+
+	if(!isAuthenticated) {
+		return <Redirect to="/login"/>
+	}	
+
 	return (
 		<div className="projects">
 			<nav className="nav">
@@ -138,6 +146,7 @@ const Project = () => {
 										})}
 									</ul>
 								</div>
+								{errorMessage && <Notification message={errorMessage}/>}
 								{checkOwner && (
 									<div>
 										<Link to={`/projects/${project._id}/assign`} className="main-project__action--button card__button">Assign developers</Link><br />

@@ -27,6 +27,9 @@ const Login = () => {
 		try {
 			await axios.post('/api/users/signIn', data, { withCredentials: true })
 				.then((res) => {
+					if(res.data.email === 'demo@example.com') {
+						window.localStorage.setItem('isDemo', JSON.stringify(true))
+					}
 					// Sending the user data to localStorage
 					window.localStorage.setItem('User', res.data.name)
 					window.localStorage.setItem('UserId', res.data.id)
@@ -39,6 +42,31 @@ const Login = () => {
 				setErrorMessage(null)
 			}, 5000)
 		}
+	}
+
+	const logDemoAccount = async () => {
+		const demoAccountData = {
+            email: 'demo@example.com',
+            password: 'test'
+        }
+		try {
+            await axios.post('/api/users/signIn', demoAccountData)
+                .then((res) => {
+                    if(res.data.email === 'demo@example.com') {
+						window.localStorage.setItem('isDemo', JSON.stringify(true))
+					}
+					// Sending the user data to localStorage
+					window.localStorage.setItem('User', res.data.name)
+					window.localStorage.setItem('UserId', res.data.id)
+					window.localStorage.setItem('isAuthenticated', JSON.stringify(true))
+                })
+            history.push('/dashboard')
+        } catch (e) {
+            setErrorMessage('Email or password incorrect')
+            setTimeout(() => {
+                setErrorMessage(null)
+            }, 5000)
+        }
 	}
 
 	if (isAuthenticated) {
@@ -73,6 +101,7 @@ const Login = () => {
 					<button className="main__form--button">Login</button>
 					<p className="main__form--redirect">Do you not have an account? <Link to="/register">Register</Link></p>
 				</form>
+				<button className="main__form--button" onClick={logDemoAccount}>Use a demo account</button>
 			</div>
 		</div>
 	)

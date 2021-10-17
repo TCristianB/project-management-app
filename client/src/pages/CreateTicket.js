@@ -122,13 +122,7 @@ const CreateTicket = () => {
 								} else if(owner !== userId  && checkDeveloperExist) {
 									checkOwner = true
 								}
-
-								return (
-									<>
-									{checkOwner && <option key={_id} value={`${_id}|${title}`}>{title}</option>}
-									</>
-								)
-
+								return checkOwner && <option key={_id} value={`${_id}|${title}`}>{title}</option>
 							})}
 						</select>
 						{errors.ticketProject && <p className="errors-message">{errors.ticketProject.message}</p>}

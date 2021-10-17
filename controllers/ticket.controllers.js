@@ -29,9 +29,10 @@ exports.createTicket = async (req, res) => {
 		ticketDeveloperName: findTicketDeveloper.name,
 		ticketProjectName: findTicketProject.title
 	})
-	console.log(findTicketProject)
 	try {
-		await ticket.save()
+		if(req.user.email !== 'demo@example.com') {
+			await ticket.save()
+		}
 		res.status(201).send(ticket)
 	} catch (e) {
 		console.log(e)
@@ -75,7 +76,9 @@ exports.updateTicket = async (req, res) => {
 			ticket[update] = req.body[update]
 		})
 
-		await ticket.save()
+		if(req.user.email !== 'demo@example.com') {
+			await ticket.save()
+		}
 
 		res.status(200).send(ticket)
 
@@ -89,6 +92,10 @@ exports.deleteTicket = async (req, res) => {
 	const _id = req.params.id
 
 	try {
+		if(req.user.email === 'demo@example.com') {
+			return res.status(405).send()
+		}
+
 		const ticket = await Ticket.findByIdAndDelete({ _id, owner: req.user._id })
 		
 		if(!ticket) {

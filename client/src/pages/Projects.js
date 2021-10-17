@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 
 import '../styles/Projects.css'
@@ -12,12 +12,18 @@ const Projects = () => {
 	const [projects, setProjects] = useState([])
 	const [searchTerm, setSearchTerm] = useState('')
 
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+
 	useEffect(() => {
 		axios.get('/api/projects')
 			.then(res => {
 				setProjects(res.data.projects)
 			})
 	}, [])
+
+	if(!isAuthenticated) {
+		return <Redirect to="/login"/>
+	}	
 
 	return (
 		<div className="projects">

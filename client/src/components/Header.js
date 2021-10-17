@@ -19,6 +19,7 @@ const Header = () => {
 				.then(() => {
 					window.localStorage.removeItem('User')
 					window.localStorage.removeItem('UserId')
+					window.localStorage.removeItem('isDemo')
 					window.localStorage.removeItem('isAuthenticated')
 					history.push('/login')
 				})

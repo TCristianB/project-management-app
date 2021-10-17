@@ -21,14 +21,14 @@ function App() {
 	return (
 		<Router>
 			<Switch>
+				<Route exact path='/register' component={Register}></Route>
+				<Route exact default path='/login' component={Login}></Route>
 				<Route exact path='/'>
 					<Redirect to='/dashboard' />
 				</Route>
 				<Route exact path='/dashboard' component={Dashboard}></Route>
 				<Route exact path='/me' component={Profile}></Route>
 				<Route exact path='/me/update' component={UpdateProfile}></Route>
-				<Route exact path='/register' component={Register}></Route>
-				<Route exact default path='/login' component={Login}></Route>
 				<Route exact path='/projects' component={Projects}></Route>
 				<Route exact path='/projects/:id' component={Project}></Route>
 				<Route exact path='/projects/update/:id' component={EditProject}></Route>

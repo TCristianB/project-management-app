@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -20,6 +20,8 @@ const CreateProject = () => {
 		resolver: yupResolver(schema)
 	})
 	const history = useHistory()
+
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userName = window.localStorage.getItem('User')
 	
 	const submitForm = (data) => {
@@ -32,6 +34,10 @@ const CreateProject = () => {
 				history.push('/projects')
 			})
 	}
+
+	if(!isAuthenticated) {
+		return <Redirect to="/login"/>
+	}	
 
 	return (
 		<div className="create-project">
