@@ -92,7 +92,7 @@
 .delete-button {
 	text-decoration: none;
 	color: white;
-	background-color: #344464;
+	background-color: red;
 	padding: 5px 10px;
 	border: 0;
 	cursor: pointer;
@@ -120,6 +120,11 @@
 	-khtml-user-select: none; /* Konqueror HTML */
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.table__name__link {
+	text-decoration: none;
+	color: #344464;
 }
 
 @media screen and (min-width: 480px) {

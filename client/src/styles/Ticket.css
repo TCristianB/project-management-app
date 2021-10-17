@@ -1,0 +1,18 @@
+.main__ticket {
+	background-color: white;
+	padding: 20px 0;
+}
+
+.main__ticket--text {
+	margin-left: 10px;
+}
+
+span {
+	font-weight: bold;
+}
+
+@media screen and (min-width: 1024px) {
+	.main__ticket {
+		margin-left: 260px;
+	}
+}

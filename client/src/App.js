@@ -13,6 +13,7 @@ import Tickets from './pages/Tickets'
 import CreateProject from './pages/CreateProject'
 import CreateTicket from './pages/CreateTicket'
 import EditTicket from './pages/EditTicket'
+import Ticket from './pages/Ticket'
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 				<Route exact path='/projects/update/:id' component={EditProject}></Route>
 				<Route exact path='/projects/:id/assign' component={AssignDeveloper}></Route>
 				<Route exact path='/tickets' component={Tickets}></Route>
+				<Route exact path='/tickets/:id' component={Ticket}></Route>
 				<Route exact path='/new-project' component={CreateProject}></Route>
 				<Route exact path='/new-ticket' component={CreateTicket}></Route>
 				<Route exact path='/tickets/update/:id' component={EditTicket}></Route>

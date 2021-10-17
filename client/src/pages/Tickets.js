@@ -21,6 +21,7 @@ const Tickets = () => {
 	}, [])
 
 	const userId = window.localStorage.getItem('UserId')
+	
 	const usersPerPage = 10
 	const pagesVisited = pageNumber * usersPerPage
 	const pageCount = Math.ceil(tickets.length / usersPerPage)
@@ -94,7 +95,7 @@ const Tickets = () => {
 								return (
 									<tr key={_id}>
 										<td className="item-table">{index}</td>
-										<td className="item-table tickets__table--name">{title}</td>
+										<td className="item-table tickets__table--name"><Link to={`/tickets/${_id}`} className="table__name__link">{title}</Link></td>
 										<td className="item-table">{ticketType}</td>
 										<td className="item-table">{ticketPriority}</td>
 										<td className="item-table">{ticketDeveloperName}</td>
