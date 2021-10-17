@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams, Redirect } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -24,6 +24,7 @@ const CreateTicket = () => {
 	const [projects, setProjects] = useState([])
 	const [ticket, setTicket] = useState()
 	const params = useParams()
+	const userId = window.localStorage.getItem('UserId')
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		resolver: yupResolver(schema)
 	})
@@ -65,6 +66,12 @@ const CreateTicket = () => {
 				history.push('/tickets')
 			})
 			.catch(e => console.log(e))
+	}
+
+	if(ticket) {
+		if(ticket.owner !== userId) {
+			return <Redirect to={`/tickets`}/>
+		}
 	}
 	
 	return (

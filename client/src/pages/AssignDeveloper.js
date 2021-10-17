@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory, Redirect } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -9,9 +9,6 @@ import '../styles/AssignDeveloper.css'
 
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
-
-// Dummy db
-import { usersData } from '../db'
 
 const schema = yup.object().shape({
 	userList: yup.string().required('User is a required field'),
@@ -23,10 +20,11 @@ const AssignDeveloper = () => {
 		resolver: yupResolver(schema)
 	})
 	const [users, setUsers] = useState([])
-	const [project, setProject] = useState([])
+	const [project, setProject] = useState()
 	const [error, setError] = useState('')
 	const params = useParams()
 	const history = useHistory()
+	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
 		axios.get('/api/users') 
@@ -69,6 +67,12 @@ const AssignDeveloper = () => {
 				.catch((e) => {
 					console.log(e)
 				})
+		}
+	}
+
+	if(project) {
+		if(project.owner !== userId) {
+			return <Redirect to={`/projects/${params.id}`}/>
 		}
 	}
 

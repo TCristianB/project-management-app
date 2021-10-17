@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useParams, Redirect } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -23,6 +23,7 @@ const EditProject = () => {
 		resolver: yupResolver(schema)
 	})
 	const history = useHistory()
+	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
 		axios.get(`/api/projects/${params.id}`)
@@ -47,6 +48,12 @@ const EditProject = () => {
 			console.log(e)
 		}
 		
+	}
+
+	if(projectData) {
+		if(projectData.owner !== userId) {
+			return <Redirect to={`/projects`}/>
+		}
 	}
 
 	return (
