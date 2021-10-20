@@ -4,8 +4,6 @@ import axios from 'axios'
 
 import '../styles/Project.css'
 
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import Notification from '../components/Notification'
 
 const Project = () => {
@@ -120,11 +118,6 @@ const Project = () => {
 	}	
 
 	return (
-		<div className="projects">
-			<nav className="nav">
-				<Header />
-			</nav>
-			<Sidebar />
 			<div className="main">
 				{project &&
 					(
@@ -200,7 +193,6 @@ const Project = () => {
 						</div>
 					)}
 			</div>
-		</div>
 	)
 }
 

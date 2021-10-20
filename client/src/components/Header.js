@@ -21,8 +21,8 @@ const Header = () => {
 					window.localStorage.removeItem('UserId')
 					window.localStorage.removeItem('isDemo')
 					window.localStorage.removeItem('isAuthenticated')
-					history.push('/login')
 				})
+				history.push('/login')
 		} catch (e) {
 			setErrorMessage('Internal Server Error')
 		}

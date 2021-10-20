@@ -3,3 +3,57 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0;
 }
+
+.container {
+	color: #344464;
+	display: grid;
+	grid-template-areas: "nav"
+	                     "main";
+}
+
+.nav {
+	display: flex;
+	justify-content: flex-end;
+	grid-area: nav;
+}
+
+.sidebar {
+	grid-area: sidebar;
+}
+
+.main {
+	grid-area: main;
+	padding-left: 10px;
+	margin-right: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+	.container {
+		grid-template-columns: 25% 75%;
+		grid-template-areas:"sidebar nav"
+	                     	"sidebar main";
+	}
+
+	.main__chart {
+		width: 30%;
+		margin-bottom: 20px;
+	}
+
+	.pie-chart {
+		width: 200px;
+	}
+}
+
+@media screen and (min-width: 1440px) {
+	.container {
+		grid-template-columns: 20% 80%;
+	}
+
+	.pie-chart {
+		width: 250px;
+	}
+
+	.pie-chat__title{ 
+		font-size: 24px;
+	}
+}

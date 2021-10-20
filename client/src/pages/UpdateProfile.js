@@ -64,54 +64,48 @@ const Register = () => {
 	}
 
 	return (
-		<div className="profile">
-			<div className="nav">
-				<Header />
+		<div className="main">
+			<div className="main__header">
+				{errorMessage && <Notification message={errorMessage} />}
+				<h2 className="auth__container--title">Update profile</h2>
 			</div>
-			<Sidebar />
-			<div className="main">
-				<div className="main__header">
-					{errorMessage && <Notification message={errorMessage} />}
-					<h2 className="auth__container--title">Update profile</h2>
-				</div>
-				<div className="main__profile">
-					<form className="form__container form__update-user" onSubmit={handleSubmit(submitForm)}>
-						<div className="form__container--field">
-							<label htmlFor="name">Name</label><br />
-							<input
-								id="name"
-								name="name"
-								type="text"
-								defaultValue={me.name}
-								{...register('name', { required: 'Required' })}
-							/>
-							{errors.name && <p className="errors-message">{errors.name.message}</p>}
-						</div>
-						<div className="form__container--field">
-							<label htmlFor="lastName">Last name</label><br />
-							<input
-								id="lastName"
-								name="lastName"
-								type="text"
-								defaultValue={me.lastName}
-								{...register('lastName', { required: 'Required' })}
-							/>
-							{errors.lastName && <p className="errors-message">{errors.lastName.message}</p>}
-						</div>
-						<div className="form__container--field">
-							<label htmlFor="email">Email</label><br />
-							<input
-								id="email"
-								name="email"
-								type="email"
-								defaultValue={me.email}
-								{...register('email', { required: 'Required' })}
-							/>
-							{errors.email && <p className="errors-message">{errors.email.message}</p>}
-						</div>
-						<button type="submit" className="main__form--button">Update user</button>
-					</form>
-				</div>
+			<div className="main__profile">
+				<form className="form__container form__update-user" onSubmit={handleSubmit(submitForm)}>
+					<div className="form__container--field">
+						<label htmlFor="name">Name</label><br />
+						<input
+							id="name"
+							name="name"
+							type="text"
+							defaultValue={me.name}
+							{...register('name', { required: 'Required' })}
+						/>
+						{errors.name && <p className="errors-message">{errors.name.message}</p>}
+					</div>
+					<div className="form__container--field">
+						<label htmlFor="lastName">Last name</label><br />
+						<input
+							id="lastName"
+							name="lastName"
+							type="text"
+							defaultValue={me.lastName}
+							{...register('lastName', { required: 'Required' })}
+						/>
+						{errors.lastName && <p className="errors-message">{errors.lastName.message}</p>}
+					</div>
+					<div className="form__container--field">
+						<label htmlFor="email">Email</label><br />
+						<input
+							id="email"
+							name="email"
+							type="email"
+							defaultValue={me.email}
+							{...register('email', { required: 'Required' })}
+						/>
+						{errors.email && <p className="errors-message">{errors.email.message}</p>}
+					</div>
+					<button type="submit" className="main__form--button">Update user</button>
+				</form>
 			</div>
 		</div>
 	)

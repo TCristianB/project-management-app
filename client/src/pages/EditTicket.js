@@ -7,9 +7,6 @@ import axios from 'axios'
 
 import '../styles/CreateTicket.css'
 
-import Header from '../components/Header'
-import SideBar from '../components/Sidebar'
-
 const schema = yup.object().shape({
 	title: yup.string().required('Title is a required field'),
 	description: yup.string().required('Description is a required field'),
@@ -28,7 +25,7 @@ const CreateTicket = () => {
 		resolver: yupResolver(schema)
 	})
 	const history = useHistory()
-	
+
 	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
@@ -47,7 +44,7 @@ const CreateTicket = () => {
 	}, [])
 	useEffect(() => {
 		axios.get(`/api/tickets/${params.id}`)
-		.then(res => setTicket(res.data))
+			.then(res => setTicket(res.data))
 	}, [params])
 
 
@@ -70,26 +67,21 @@ const CreateTicket = () => {
 			.catch(e => console.log(e))
 	}
 
-	if(ticket) {
-		if(ticket.owner !== userId) {
-			return <Redirect to={`/tickets`}/>
+	if (ticket) {
+		if (ticket.owner !== userId) {
+			return <Redirect to={`/tickets`} />
 		}
 	}
 
-	if(!isAuthenticated) {
-		return <Redirect to="/login"/>
-	}	
-	
+	if (!isAuthenticated) {
+		return <Redirect to="/login" />
+	}
+
 	return (
-		<div className="create-ticket">
-			<nav className="nav">
-				<Header />
-			</nav>
-			<SideBar />
-			<main className="main main_form">
-				<h2>Edit a ticket</h2>
-				{ticket && (
-					<form onSubmit={handleSubmit(submitForm)}>
+		<main className="main main_form">
+			<h2>Edit a ticket</h2>
+			{ticket && (
+				<form onSubmit={handleSubmit(submitForm)}>
 					<div className="main__form-section">
 						<label htmlFor="title">Title</label><br />
 						<input
@@ -168,9 +160,8 @@ const CreateTicket = () => {
 					</div>
 					<button className="main__form--button" type="submit">Edit ticket</button>
 				</form>
-				)}
-			</main>
-		</div>
+			)}
+		</main>
 	)
 }
 

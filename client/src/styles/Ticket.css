@@ -10,9 +10,3 @@
 span {
 	font-weight: bold;
 }
-
-@media screen and (min-width: 1024px) {
-	.main__ticket {
-		margin-left: 260px;
-	}
-}

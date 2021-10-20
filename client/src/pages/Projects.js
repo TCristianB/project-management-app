@@ -4,8 +4,6 @@ import axios from 'axios'
 
 import '../styles/Projects.css'
 
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import ProjectBox from '../components/ProjectBox'
 
 const Projects = () => {
@@ -21,41 +19,35 @@ const Projects = () => {
 			})
 	}, [])
 
-	if(!isAuthenticated) {
-		return <Redirect to="/login"/>
-	}	
+	if (!isAuthenticated) {
+		return <Redirect to="/login" />
+	}
 
 	return (
-		<div className="projects">
-			<nav className="nav">
-				<Header />
-			</nav>
-			<Sidebar />
-			<main className="main">
-				<div className="main-projects__nav">
-					<h2>All Projects</h2>
-					<div className="main-project__action">
-						<input className="main-project__input" type="text" placeholder="Search..." onChange={(event) => setSearchTerm(event.target.value)}/>
-						<Link to="/new-project" className="main-project__action--button">Add project</Link>
-					</div>
-					<div className="main__project-area">
-						{projects && projects.filter((val) => {
-							if(searchTerm === ""){
-								return val
-							} else if (val.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-								return val
-							} else {
-								return null
-							}
-
-						}).map(project => {
-							const { _id, title, decription, developers, owner } = project
-							return <ProjectBox key={_id} id={_id} owner={owner} title={title} description={decription} developers={developers.length} />
-						})}
-					</div>
+		<main className="main">
+			<div className="main-projects__nav">
+				<h2>All Projects</h2>
+				<div className="main-project__action">
+					<input className="main-project__input" type="text" placeholder="Search..." onChange={(event) => setSearchTerm(event.target.value)} />
+					<Link to="/new-project" className="main-project__action--button">Add project</Link>
 				</div>
-			</main>
-		</div>
+				<div className="main__project-area">
+					{projects && projects.filter((val) => {
+						if (searchTerm === "") {
+							return val
+						} else if (val.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+							return val
+						} else {
+							return null
+						}
+
+					}).map(project => {
+						const { _id, title, decription, developers, owner } = project
+						return <ProjectBox key={_id} id={_id} owner={owner} title={title} description={decription} developers={developers.length} />
+					})}
+				</div>
+			</div>
+		</main>
 	)
 }
 

@@ -46,42 +46,36 @@ const Ticket = () => {
 			.catch(e => console.log(e))
 	}
 
-	if(!isAuthenticated) {
-		return <Redirect to="/login"/>
-	}	
+	if (!isAuthenticated) {
+		return <Redirect to="/login" />
+	}
 
 	if (!ticket) {
 		return <Loading />
 	}
 
 	return (
-		<div className="tickets">
-			<nav className="nav">
-				<Header />
-			</nav>
-			<Sidebar />
-			<div className="main">
-				<div className="main__header">
-					<h2>{ticket.title}</h2>
-				</div>
-				<div className="main__ticket">
-					<p className="main__ticket--text">{ticket.description}</p>
-					<p className="main__ticket--text">Ticket tpye: <span>{ticket.ticketType}</span> </p>
-					<p className="main__ticket--text">Ticket priority: <span>{ticket.ticketPriority}</span></p>
-					<p className="main__ticket--text">Project: <span>{ticket.ticketProjectName}</span></p>
-					<p className="main__ticket--text">Assigned to <span>{ticket.ticketDeveloperName}</span></p>
-					<p className="main__ticket--text">Created on <span>{dateProject}</span></p>
-					<p className="main__ticket--text">Created by <span>{ticket.ownerName}</span></p>
-					{checkOwner && (
-						<>
-							<p className="main__ticket--text">
-								<Link to={`/tickets/update/${ticket._id}`} className="edit-button">Edit</Link><br />
-								<br />
-								<button onClick={() => deleteTicket(ticket._id)} className="delete-button">Delete</button>
-							</p>
-						</>
-					)}
-				</div>
+		<div className="main">
+			<div className="main__header">
+				<h2>{ticket.title}</h2>
+			</div>
+			<div className="main__ticket">
+				<p className="main__ticket--text">{ticket.description}</p>
+				<p className="main__ticket--text">Ticket tpye: <span>{ticket.ticketType}</span> </p>
+				<p className="main__ticket--text">Ticket priority: <span>{ticket.ticketPriority}</span></p>
+				<p className="main__ticket--text">Project: <span>{ticket.ticketProjectName}</span></p>
+				<p className="main__ticket--text">Assigned to <span>{ticket.ticketDeveloperName}</span></p>
+				<p className="main__ticket--text">Created on <span>{dateProject}</span></p>
+				<p className="main__ticket--text">Created by <span>{ticket.ownerName}</span></p>
+				{checkOwner && (
+					<>
+						<p className="main__ticket--text">
+							<Link to={`/tickets/update/${ticket._id}`} className="edit-button">Edit</Link><br />
+							<br />
+							<button onClick={() => deleteTicket(ticket._id)} className="delete-button">Delete</button>
+						</p>
+					</>
+				)}
 			</div>
 		</div>
 	)

@@ -6,8 +6,6 @@ import ReactPaginate from 'react-paginate'
 
 import '../styles/Dashboard.css'
 
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import TicketTable from '../components/TicketTable'
 
 const Dashboard = () => {
@@ -16,6 +14,7 @@ const Dashboard = () => {
 	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 	];
+	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 
 	useEffect(() => {
 		axios.get('/api/tickets')
@@ -25,7 +24,6 @@ const Dashboard = () => {
 	}, [])
 
 	const userId = window.localStorage.getItem('UserId')
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const isDemo = window.localStorage.getItem('isDemo')
 
 
@@ -89,89 +87,83 @@ const Dashboard = () => {
 	getPriorityAndType()
 
 	return (
-		<div className="dashboard">
-			<nav className='nav'>
-				<Header />
-			</nav>
-			<Sidebar />
-			<main className="main">
-				<h2>Dashboard</h2>
-				{isDemo && <h3>This account is a demo account, you can't make changes to the app.</h3>}
-				<div className="main__chart">
-					<Bar
-						data={{
-							labels: Object.keys(counts),
-							datasets: [
-								{
-									label: 'Tickets',
-									data: Object.values(counts),
-									backgroundColor: [
-										'rgba(255, 99, 132, 0.2)',
+		<div className="main">
+			<h2>Dashboard</h2>
+			{isDemo && <h3>This account is a demo account, you can't make changes to the app.</h3>}
+			<div className="main__chart">
+				<Bar
+					data={{
+						labels: Object.keys(counts),
+						datasets: [
+							{
+								label: 'Tickets',
+								data: Object.values(counts),
+								backgroundColor: [
+									'rgba(255, 99, 132, 0.2)',
 
-									],
-									borderColor: [
-										'rgba(255, 99, 132, 1)',
-									],
-									borderWidth: 1,
-								},
-							],
+								],
+								borderColor: [
+									'rgba(255, 99, 132, 1)',
+								],
+								borderWidth: 1,
+							},
+						],
+					}}
+					width={10}
+					height={15} />
+			</div>
+			<div className="main__pie-chart">
+				<div className="pie-chart pie-chart__ticket-type">
+					<p className="pie-chat__title">Ticket by type</p>
+					<Pie
+						data={{
+							labels: Object.keys(countsType),
+							datasets: [{
+								data: Object.values(countsType),
+								backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+								borderColor: [
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+								],
+							}]
 						}}
 						width={10}
 						height={15} />
 				</div>
-				<div className="main__pie-chart">
-					<div className="pie-chart pie-chart__ticket-type">
-						<p className="pie-chat__title">Ticket by type</p>
-						<Pie
-							data={{
-								labels: Object.keys(countsType),
-								datasets: [{
-									data: Object.values(countsType),
-									backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
-									borderColor: [
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-									],
-								}]
-							}}
-							width={10}
-							height={15} />
-					</div>
-					<div className="pie-chart">
-						<p className="pie-chat__title">Ticket by priority</p>
-						<Pie
-							data={{
-								labels: Object.keys(countsPriority),
-								datasets: [{
-									data: Object.values(countsPriority),
-									backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
-									borderColor: [
-										'rgba(54, 162, 235, 1)',
-										'rgba(255, 206, 86, 1)',
-										'rgba(75, 192, 192, 1)',
-									]
-								}]
-							}}
-							width={10}
-							height={15} />
-					</div>
+				<div className="pie-chart">
+					<p className="pie-chat__title">Ticket by priority</p>
+					<Pie
+						data={{
+							labels: Object.keys(countsPriority),
+							datasets: [{
+								data: Object.values(countsPriority),
+								backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+								borderColor: [
+									'rgba(54, 162, 235, 1)',
+									'rgba(255, 206, 86, 1)',
+									'rgba(75, 192, 192, 1)',
+								]
+							}]
+						}}
+						width={10}
+						height={15} />
 				</div>
-				<div className="main__tickets">
-					<h3 className="main__tickets__title">All Tickets</h3>
-					<TicketTable
-						tickets={tickets}
-						userId={userId}
-						ReactPaginate={ReactPaginate}
-						pageCount={pageCount}
-						changePage={changePage}
-						pagesVisited={pagesVisited}
-						usersPerPage={usersPerPage}
-						deleteTicket={deleteTicket}
-						passClass={"main__tickets--table"}
-					/>
-				</div>
-			</main>
+			</div>
+			<div className="main__tickets">
+				<h3 className="main__tickets__title">All Tickets</h3>
+				<TicketTable
+					tickets={tickets}
+					userId={userId}
+					ReactPaginate={ReactPaginate}
+					pageCount={pageCount}
+					changePage={changePage}
+					pagesVisited={pagesVisited}
+					usersPerPage={usersPerPage}
+					deleteTicket={deleteTicket}
+					passClass={"main__tickets--table"}
+				/>
+			</div>
 		</div>
 	)
 }

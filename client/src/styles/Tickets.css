@@ -16,13 +16,3 @@
 		display: table-cell
 	}
 }
-
-@media screen and (min-width: 1024px) {
-	.ticket_table {
-		margin-left: 260px;
-	}
-
-	.main__header {
-		margin-left: 260px;
-	}
-}
