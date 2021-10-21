@@ -42,6 +42,10 @@ body {
 	.pie-chart {
 		width: 200px;
 	}
+
+	#NotFound__title {
+		margin-left: 0;
+	}
 }
 
 @media screen and (min-width: 1440px) {
