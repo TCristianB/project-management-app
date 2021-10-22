@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
 	try {
 		const token = await user.generateAuthToken()
 		await user.save()
-		res.status(200).cookie('jwt', token, { httpOnly: true }).cookie('isLogged', true).send({ id: user._id, name: user.name })
+		res.status(201).cookie('jwt', token, { httpOnly: true }).cookie('isLogged', true).send({ id: user._id, name: user.name })
 	} catch (e) {
 		res.status(400).send()
 	}

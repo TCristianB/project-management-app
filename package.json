@@ -10,7 +10,7 @@
 	"heroku-postbuild": "npm run install-client && npm run build",
     "eslint": "eslint .",
     "start": "NODE_ENV=production node index.js",
-    "test": "NODE_ENV=test PORT=8001 jest --silent --detectOpenHandles",
+    "test": "NODE_ENV=test PORT=8001 jest --verbose --detectOpenHandles",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [

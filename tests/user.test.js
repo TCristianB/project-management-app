@@ -62,15 +62,15 @@ describe('Testing the users route', () => {
 		expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
 	})
 
-	test('Log in a user and log out', async () => {
+	test('Log in a user and logout a user', async () => {
 		await api
 			.post('/api/users/signIn')
 			.send(user)
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
 
-		const findUser = await User.findOne({ email: 'jose@example.com' })
-		await api.post('/api/users/signOut').set('Authorization', `Bearer ${findUser.tokens[0].token}`).expect(200)
+		const findUser = await User.findOne({ email: user.email })
+		await api.post('/api/users/signOut').set('Cookie', `jwt=${findUser.tokens[0].token}`).expect(200)
 	})
 
 	test('Get a user by id', async () => {
@@ -81,7 +81,7 @@ describe('Testing the users route', () => {
 			.expect('Content-Type', /application\/json/)
 		
 		const findUser = await User.findOne({ email: 'jose@example.com' })	
-		await api.get(`/api/users/${findUser.id}`).set('Authorization', `Bearer ${findUser.tokens[0].token}`).expect(200)
+		await api.get(`/api/users/${findUser.id}`).set('Cookie', `jwt=${findUser.tokens[0].token}`).expect(200)
 	})
 
 	test('update a user', async () => {
@@ -98,7 +98,7 @@ describe('Testing the users route', () => {
 		}
 		const findUser = await User.findOne({ email: 'jose@example.com' })
 
-		await api.patch(`/api/users/${findUser.id}`).set('Authorization', `Bearer ${findUser.tokens[0].token}`).send(updatedUser).expect(200)
+		await api.patch(`/api/users/${findUser.id}`).set('Cookie', `jwt=${findUser.tokens[0].token}`).send(updatedUser).expect(200)
 	})
 
 })
