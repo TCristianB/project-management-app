@@ -5,9 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import axios from 'axios'
 
-import '../styles/Auth.css'
+import './Auth.css'
 
-import Notification from '../components/Notification'
+import Notification from '../../components/Notification'
 
 const schema = yup.object().shape({
 	email: yup.string().email().required('Email is a required field'),

@@ -1,51 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useHistory, Redirect } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import axios from 'axios'
 
-import '../styles/Auth.css'
+import './Auth.css'
 
-import Notification from '../components/Notification'
-import Loading from '../components/Loading'
+import Notification from '../../components/Notification'
 
 const schema = yup.object().shape({
 	name: yup.string().required('Name is a required field'),
 	lastName: yup.string().required('Last name is a required field'),
 	email: yup.string().email().required('Email is a required field'),
+	password: yup.string().min(4).max(15).required('Password is a required field'),
 })
 
 const Register = () => {
 	const [errorMessage, setErrorMessage] = useState(null)
-	const [me, setMe] = useState()
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		resolver: yupResolver(schema)
 	})
 
+	const isAuthenticated = JSON.parse(window.localStorage.getItem('isAuthenticated'))
 	const history = useHistory()
 
-	useEffect(() => {
-		const checkUser = document.cookie.split("=")[1]
-		if (checkUser !== "true") {
-			return history.push('/login')
-		}
-		axios.get('/api/users/me')
-			.then(res => setMe(res.data))
-	}, [history])
-
-	if (!me) {
-		return <Loading />
-	}
-
-
 	const submitForm = async (data) => {
-
 		try {
-			await axios.patch('/api/users/me', data, { withCredentials: true })
+			await axios.post('/api/users/signUp', data, { withCredentials: true })
 				.then((res) => {
 					window.localStorage.setItem('User', res.data.name)
-					history.push('/me')
+					window.localStorage.setItem('UserId', res.data.id)
+					window.localStorage.setItem('isAuthenticated', JSON.stringify(true))
+					history.push('/dashboard')
 				})
 		} catch (e) {
 			if (e.response.status === 409) {
@@ -59,21 +46,22 @@ const Register = () => {
 		}
 	}
 
+	if (isAuthenticated) {
+		return <Redirect to="/dashboard" />
+	}
+	
 	return (
-		<div className="main">
-			<div className="main__header">
+		<div className="auth">
+			<div className="auth__container">
 				{errorMessage && <Notification message={errorMessage} />}
-				<h2 className="auth__container--title">Update profile</h2>
-			</div>
-			<div className="main__profile">
-				<form className="form__container form__update-user" onSubmit={handleSubmit(submitForm)}>
+				<h2 className="auth__container--title">Register</h2>
+				<form className="form__container" onSubmit={handleSubmit(submitForm)}>
 					<div className="form__container--field">
 						<label htmlFor="name">Name</label><br />
 						<input
 							id="name"
 							name="name"
 							type="text"
-							defaultValue={me.name}
 							{...register('name', { required: 'Required' })}
 						/>
 						{errors.name && <p className="errors-message">{errors.name.message}</p>}
@@ -84,7 +72,6 @@ const Register = () => {
 							id="lastName"
 							name="lastName"
 							type="text"
-							defaultValue={me.lastName}
 							{...register('lastName', { required: 'Required' })}
 						/>
 						{errors.lastName && <p className="errors-message">{errors.lastName.message}</p>}
@@ -95,12 +82,22 @@ const Register = () => {
 							id="email"
 							name="email"
 							type="email"
-							defaultValue={me.email}
 							{...register('email', { required: 'Required' })}
 						/>
 						{errors.email && <p className="errors-message">{errors.email.message}</p>}
 					</div>
-					<button type="submit" className="main__form--button">Update user</button>
+					<div className="form__container--field">
+						<label htmlFor="password">Password</label><br />
+						<input
+							id="password"
+							name="password"
+							type="password"
+							{...register('password', { required: 'Required' })}
+						/>
+						{errors.password && <p className="errors-message">{errors.password.message}</p>}
+					</div>
+					<button className="main__form--button">Register</button>
+					<p className="main__form--redirect">Already register? <Link to="/login">Login</Link></p>
 				</form>
 			</div>
 		</div>

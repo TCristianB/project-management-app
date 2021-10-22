@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
-import '../styles/Project.css'
+import './Project.css'
 
-import Notification from '../components/Notification'
+import Notification from '../../components/Notification'
 
 const Project = () => {
 	const [project, setProject] = useState()

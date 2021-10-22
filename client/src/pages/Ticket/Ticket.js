@@ -3,9 +3,9 @@ import { Link, useHistory } from 'react-router-dom'
 import { useParams } from 'react-router'
 import axios from 'axios'
 
-import '../styles/Ticket.css'
+import './Ticket.css'
 
-import Loading from '../components/Loading'
+import Loading from '../../components/Loading'
 
 const Ticket = () => {
 	const [ticket, setTicket] = useState()

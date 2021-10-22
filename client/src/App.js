@@ -2,8 +2,8 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './App.css'
 
-import Register from './pages/Register'
-import Login from './pages/Login'
+import Register from './pages/Auth/Register'
+import Login from './pages/Auth/Login'
 
 import Home from './components/Home'
 

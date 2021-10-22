@@ -1,6 +1,6 @@
 import React from 'react'
 
-import '../styles/Dashboard.css'
+import '../pages/Dashboard/Dashboard.css'
 
 const Loading = () => {
 	return (

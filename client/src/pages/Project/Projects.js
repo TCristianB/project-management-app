@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
-import '../styles/Projects.css'
+import './Projects.css'
 
-import ProjectBox from '../components/ProjectBox'
+import ProjectBox from '../../components/ProjectBox'
 
 const Projects = () => {
 	const [projects, setProjects] = useState([])

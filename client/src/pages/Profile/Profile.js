@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
-import '../styles/Profile.css'
+import './Profile.css'
 
-import Loading from '../components/Loading'
+import Loading from '../../components/Loading'
 
 const Profile = () => {
 	const [me, setMe] = useState()

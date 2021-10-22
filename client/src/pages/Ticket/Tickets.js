@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate'
 
-import '../styles/Tickets.css'
+import './Tickets.css'
 
 const Tickets = () => {
 	const [tickets, setTickets] = useState([])

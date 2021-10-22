@@ -4,9 +4,9 @@ import axios from 'axios'
 import { Bar, Pie } from 'react-chartjs-2'
 import ReactPaginate from 'react-paginate'
 
-import '../styles/Dashboard.css'
+import './Dashboard.css'
 
-import TicketTable from '../components/TicketTable'
+import TicketTable from '../../components/TicketTable'
 
 const Dashboard = () => {
 	const [tickets, setTickets] = useState([])

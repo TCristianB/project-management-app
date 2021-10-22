@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import axios from 'axios'
 
-import '../styles/CreateProject.css'
+import './CreateProject.css'
 
 const schema = yup.object().shape({
 	title: yup.string().required('Title is a required field'),
