@@ -26,11 +26,15 @@ const CreateTicket = () => {
 	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if(checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/users')
 			.then(res => {
 				setUsers(res.data)
 			})
-	}, [])
+	}, [history])
 
 	useEffect(() => {
 		axios.get('/api/projects')
@@ -57,6 +61,7 @@ const CreateTicket = () => {
 			})
 			.catch(e => console.log(e))
 	}
+
 	return (
 		<main className="main main_form">
 			<h2>Create a new ticket</h2>

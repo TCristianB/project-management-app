@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 import '../styles/Projects.css'
@@ -9,19 +9,18 @@ import ProjectBox from '../components/ProjectBox'
 const Projects = () => {
 	const [projects, setProjects] = useState([])
 	const [searchTerm, setSearchTerm] = useState('')
-
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+	const history = useHistory()
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if (checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/projects')
 			.then(res => {
 				setProjects(res.data.projects)
 			})
-	}, [])
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
-	}
+	}, [history])
 
 	return (
 		<main className="main">

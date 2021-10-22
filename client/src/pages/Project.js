@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams, useHistory, Redirect } from 'react-router-dom'
+import { Link, useParams, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 import '../styles/Project.css'
@@ -14,13 +14,16 @@ const Project = () => {
 	const history = useHistory()
 	let checkOwner = true
 
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
 
 
 	// Get project data
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if(checkUser !== "true") {
+			return history.push('/login')
+		}
 		try {
 			axios.get(`/api/projects/${params.id}`)
 				.then((res) => {
@@ -29,7 +32,7 @@ const Project = () => {
 		} catch (e) {
 			console.log(e)
 		}
-	}, [params])
+	}, [params, history])
 
 	// Get all projects tickets
 	useEffect(() => {
@@ -111,10 +114,6 @@ const Project = () => {
 		if (project.owner !== userId) {
 			checkOwner = false
 		}
-	}
-
-	if(!isAuthenticated) {
-		return <Redirect to="/login"/>
 	}	
 
 	return (

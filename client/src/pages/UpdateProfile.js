@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -8,8 +8,6 @@ import axios from 'axios'
 import '../styles/Auth.css'
 
 import Notification from '../components/Notification'
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import Loading from '../components/Loading'
 
 const schema = yup.object().shape({
@@ -17,8 +15,6 @@ const schema = yup.object().shape({
 	lastName: yup.string().required('Last name is a required field'),
 	email: yup.string().email().required('Email is a required field'),
 })
-
-const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 
 const Register = () => {
 	const [errorMessage, setErrorMessage] = useState(null)
@@ -30,9 +26,13 @@ const Register = () => {
 	const history = useHistory()
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if (checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/users/me')
 			.then(res => setMe(res.data))
-	}, [])
+	}, [history])
 
 	if (!me) {
 		return <Loading />
@@ -57,10 +57,6 @@ const Register = () => {
 				setErrorMessage(null)
 			}, 5000)
 		}
-	}
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
 	}
 
 	return (

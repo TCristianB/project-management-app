@@ -26,15 +26,18 @@ const CreateTicket = () => {
 	})
 	const history = useHistory()
 
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if(checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/users')
 			.then(res => {
 				setUsers(res.data)
 			})
-	}, [])
+	}, [history])
 
 	useEffect(() => {
 		axios.get('/api/projects')
@@ -71,10 +74,6 @@ const CreateTicket = () => {
 		if (ticket.owner !== userId) {
 			return <Redirect to={`/tickets`} />
 		}
-	}
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
 	}
 
 	return (

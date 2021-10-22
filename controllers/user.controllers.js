@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
 	try {
 		const token = await user.generateAuthToken()
 		await user.save()
-		res.status(200).cookie('jwt', token, { httpOnly: true }).send({ id: user._id, name: user.name })
+		res.status(200).cookie('jwt', token, { httpOnly: true }).cookie('isLogged', true).send({ id: user._id, name: user.name })
 	} catch (e) {
 		res.status(400).send()
 	}
@@ -26,7 +26,7 @@ exports.logInUser = async (req, res) => {
 	try {
 		const user = await User.findByCredentials(req.body.email, req.body.password)
 		const token = await user.generateAuthToken()
-		res.status(200).cookie('jwt', token, { httpOnly: true }).send({ id: user._id, name: user.name, email: user.email })
+		res.status(200).cookie('jwt', token, { httpOnly: true }).cookie('isLogged', true).send({ id: user._id, name: user.name, email: user.email })
 	} catch (e) {
 		res.status(500).send()
 	}
@@ -37,7 +37,7 @@ exports.logOutUser = async (req, res) => {
 		req.user.tokens = req.user.tokens.filter((token) => {
 			return token.token !== req.token
 		})
-		res.status(200).clearCookie('jwt').send()
+		res.status(200).clearCookie('isLogged').clearCookie('jwt').send()
 	} catch (e) {
 		res.status(500).send()
 	}

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory, Redirect } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useParams } from 'react-router'
 import axios from 'axios'
 
 import '../styles/Ticket.css'
 
-import Header from '../components/Header'
-import Sidebar from '../components/Sidebar'
 import Loading from '../components/Loading'
 
 const Ticket = () => {
@@ -16,11 +14,13 @@ const Ticket = () => {
 	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if (checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get(`/api/tickets/${params.id}`)
 			.then(res => setTicket(res.data))
-	}, [params])
-
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+	}, [params, history])
 
 	// Setting the date
 	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -44,10 +44,6 @@ const Ticket = () => {
 				history.push('/tickets')
 			})
 			.catch(e => console.log(e))
-	}
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
 	}
 
 	if (!ticket) {

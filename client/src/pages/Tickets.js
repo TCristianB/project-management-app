@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 import ReactPaginate from 'react-paginate'
 
@@ -9,15 +9,18 @@ const Tickets = () => {
 	const [tickets, setTickets] = useState([])
 	const [pageNumber, setPageNumber] = useState(0)
 	const [searchTerm, setSearchTerm] = useState('')
-
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+	const history = useHistory()
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if (checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/tickets')
 			.then(res => {
 				setTickets(res.data)
 			})
-	}, [])
+	}, [history])
 
 	const userId = window.localStorage.getItem('UserId')
 
@@ -38,10 +41,6 @@ const Tickets = () => {
 				}))
 			})
 			.catch(e => console.log(e))
-	}
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
 	}
 
 	return (

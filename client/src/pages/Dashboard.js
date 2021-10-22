@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { Bar, Pie } from 'react-chartjs-2'
 import ReactPaginate from 'react-paginate'
@@ -14,14 +14,18 @@ const Dashboard = () => {
 	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 	];
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+	const history = useHistory()
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if(checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/tickets')
 			.then(res => {
 				setTickets(res.data)
 			})
-	}, [])
+	}, [history])
 
 	const userId = window.localStorage.getItem('UserId')
 	const isDemo = window.localStorage.getItem('isDemo')
@@ -79,9 +83,6 @@ const Dashboard = () => {
 			.catch(e => console.log(e))
 	}
 
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
-	}
 
 	getAllDates()
 	getPriorityAndType()

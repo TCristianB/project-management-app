@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 import '../styles/Profile.css'
@@ -8,23 +8,22 @@ import Loading from '../components/Loading'
 
 const Profile = () => {
 	const [me, setMe] = useState()
-
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
+	const history = useHistory()
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if(checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/users/me')
 			.then(res => setMe(res.data))
 			.catch(e => {
 				console.log(e)
 			})
-	}, [])
+	}, [history])
 
 	if (!me) {
 		return <Loading />
-	}
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
 	}
 
 	return (

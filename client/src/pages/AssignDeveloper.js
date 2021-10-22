@@ -22,13 +22,16 @@ const AssignDeveloper = () => {
 	const params = useParams()
 	const history = useHistory()
 
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if(checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get('/api/users')
 			.then((res) => setUsers(res.data))
-	}, [])
+	}, [history])
 
 	useEffect(() => {
 		axios.get(`/api/projects/${params.id}`)
@@ -73,10 +76,6 @@ const AssignDeveloper = () => {
 		if (project.owner !== userId) {
 			return <Redirect to={`/projects/${params.id}`} />
 		}
-	}
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
 	}
 
 	return (

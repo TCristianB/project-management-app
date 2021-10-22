@@ -21,10 +21,13 @@ const EditProject = () => {
 	})
 	const history = useHistory()
 
-	const isAuthenticated = window.localStorage.getItem('isAuthenticated')
 	const userId = window.localStorage.getItem('UserId')
 
 	useEffect(() => {
+		const checkUser = document.cookie.split("=")[1]
+		if(checkUser !== "true") {
+			return history.push('/login')
+		}
 		axios.get(`/api/projects/${params.id}`)
 			.then(res => {
 				setProjectData(res.data)
@@ -34,7 +37,7 @@ const EditProject = () => {
 				}
 				console.log(e.response.status)
 			})
-	}, [params])
+	}, [params, history])
 
 	const submitForm = (data) => {
 		console.log(data)
@@ -53,10 +56,6 @@ const EditProject = () => {
 		if (projectData.owner !== userId) {
 			return <Redirect to={`/projects`} />
 		}
-	}
-
-	if (!isAuthenticated) {
-		return <Redirect to="/login" />
 	}
 
 	return (
