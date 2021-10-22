@@ -64,28 +64,9 @@
 	color: white;
 }
 
-
-@media screen and (min-width: 480px) {
-	.bars-icon {
-		right: -9%
-	}
-}
-
-@media screen and (min-width: 576px) {
-	.bars-icon {
-		right: -8%
-	}
-}
-
-@media screen and (min-width: 768px) {
-	.bars-icon {
-		right: -6%
-	}
-}
-
 @media screen and (min-width: 1024px) {
 	.bars-icon {
-		display: none !important;
+		display: none;
 	}
 
 	.sidebar {
